@@ -368,6 +368,7 @@ bibtexcode {
   position: relative;
   overflow: visible; /* allow hover card to escape */
 }
+.task2-toggle .button { padding: 2px 8px; height: 24px; }
 .task-box video {
   width: 100%;
   z-index: 2;

@@ -5,10 +5,10 @@ import json
 # --- 配置区 ---
 
 # 1. 设置你的视频所在的文件夹路径
-INPUT_FOLDER = "/Users/micdz/Westlake/Traj2Action/static/videos/tasks" 
+INPUT_FOLDER = "/Users/micdz/Westlake/Traj2Action/static/videos/tasks/origin" 
 
 # 2. 设置处理完成后视频的保存路径
-OUTPUT_FOLDER = "/Users/micdz/Westlake/Traj2Action/static/videos/tasks/output"
+OUTPUT_FOLDER = "/Users/micdz/Westlake/Traj2Action/static/videos/tasks/"
 
 # 3. 定义要处理的视频文件扩展名 (小写)
 VIDEO_EXTENSIONS = ('.mp4', '.mov', '.avi', '.mkv', '.flv')
@@ -36,6 +36,7 @@ def has_audio_stream(video_path):
 def process_video(input_path, output_path):
     """
     使用 ffmpeg 处理单个视频文件。
+    - 调整分辨率为 360p
     - 3倍速播放 (视频和音频)
     - 设置帧率为 15 fps
     - 在左上角添加 'x3' 文字 (更大、更粗)
@@ -45,11 +46,8 @@ def process_video(input_path, output_path):
     has_audio = has_audio_stream(input_path)
 
     # --- 主要修改在这里 ---
-    # 基础视频滤镜链
-    # fontsize 调大到 72
-    # borderw=2 和 bordercolor=white 增加了一个2像素的白色边框，实现加粗效果
-    # x 和 y 也相应调大，避免贴边
-    video_filter = "setpts=PTS/3,drawtext=text='x3':x=20:y=20:fontcolor=white:fontsize=72:borderw=2:bordercolor=white"
+    # 在滤镜链的最前面加入了 "scale=-2:360"
+    video_filter = "scale=-2:360,setpts=PTS/3,drawtext=text='x3':x=20:y=20:fontcolor=white:fontsize=72:borderw=2:bordercolor=white"
     # --- 修改结束 ---
 
     if has_audio:
@@ -69,7 +67,7 @@ def process_video(input_path, output_path):
         ]
         
     try:
-        subprocess.run(command, check=True)
+        subprocess.run(command, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         print(f"处理成功: {os.path.basename(output_path)}")
     except subprocess.CalledProcessError as e:
         print(f"处理失败: {os.path.basename(input_path)}")
@@ -95,7 +93,7 @@ def main():
                 continue
             found_videos = True
             input_file_path = os.path.join(INPUT_FOLDER, filename)
-            output_file_path = os.path.join(OUTPUT_FOLDER, f"processed_{filename}")
+            output_file_path = os.path.join(OUTPUT_FOLDER, f"{filename}")
             process_video(input_file_path, output_file_path)
 
     if not found_videos:

@@ -141,15 +141,18 @@ The result is a more data-efficient training process that produces more robust a
           </div>
         </div>
         <div class="column is-half">
-          <div class="box task-box">
-            <video controls autoplay muted playsinline loop style="width:100%;height:auto;display:block;border-radius:6px" poster="static/images/main.png">
-              <source src="static/videos/tasks/task2-fruits.mp4" type="video/mp4">
+          <div class="box task-box" id="task2-box" data-yellow-src="static/videos/tasks/task2-fruits-yellow.mp4" data-blue-src="static/videos/tasks/task2-fruits-blue.mp4">
+            <div class="task2-toggle" aria-label="Tray toggle" style="position:absolute; top:8px; right:8px; z-index:4; display:flex; gap:6px;">
+              <button class="button is-small is-light" data-tray="yellow">Yellow</button>
+              <button class="button is-small is-link is-light" data-tray="blue">Blue</button>
+            </div>
+            <video id="task2-video" src="static/videos/tasks/task2-fruits-yellow.mp4" controls autoplay muted playsinline loop style="width:100%;height:auto;display:block;border-radius:6px" poster="static/images/main.png">
               Your browser does not support the video tag.
             </video>
-            <p class="has-text-centered has-text-weight-semibold task-desc" style="margin-top: 8px;">Task2: pick up the tomato and put it in the yellow/blue tray</p>
-            <div class="task-hover-card">
-              <p class="title is-6">Task 2: pick up the tomato and put it in the yellow/blue tray</p>
-              <p class="is-size-6">The workspace contains a tomato and two trays, one yellow and one blue. The robot must pick up the tomato and place it into the tray specified by a language command (e.g., "the yellow tray"). This task tests the policy's ability to ground language instructions to specific objects and goals.</p>
+            <p class="has-text-centered has-text-weight-semibold task-desc" id="task2-title" style="margin-top: 8px;">Task 2: pick up the tomato and put it in the yellow tray</p>
+            <div class="task-hover-card" id="task2-hover">
+              <p class="title is-6">Task 2: pick up the tomato and put it in the <span id="task2-tray-label">yellow</span> tray</p>
+              <p class="is-size-6">The workspace contains a tomato and two trays, one yellow and one blue. The robot must pick up the tomato and place it into the tray specified by a language command (e.g., "the <span id='task2-tray-label-2'>yellow</span> tray"). This task tests the policy's ability to ground language instructions to specific objects and goals.</p>
             </div>
           </div>
         </div>
