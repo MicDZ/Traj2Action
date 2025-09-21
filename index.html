@@ -38,49 +38,18 @@
  
 
   </div>
-  </nav>
-
-<!-- <nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <div class="navbar-menu">
-    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://yushi-hu.github.io">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
-      </a>
-
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More Research
-        </a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://finegrainedrlhf.github.io/">
-            Fine-Grained RLHF (NeurIPS 2023)
-          </a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</nav> -->
-
   <section class="hero">
     <div class="hero-body">
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title" ><span class="rainbow_text_animated">From Human Hands to Robot Arms</span><br> <div style="font-size:2rem"> Manipulation Skills Transfer via Trajectory Alignment</div></h1>
+            <h1 class="title is-1 publication-title" ><span class="rainbow_text_animated">From Human Hands to Robot Arms</span>&nbsp;<img src="static/images/logo.png" width="90"><br> <div style="font-size:2rem"> Manipulation Skills Transfer via Trajectory Alignment</div></h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+               Paper under review at ICLR 2026
+            </div>
 
-
-
-                  <div class="content has-text-centered">
+                  <!-- <div class="content has-text-centered">
                     <div class="publication-links">
                       <span class="link-block">
                         <a href="/" target="_blank"
@@ -90,11 +59,11 @@
                         </span>
                         <span>Paper</span>
                       </a>
-                    </span>
+                    </span> -->
 
                   <!-- Github link -->
                   <span class="link-block">
-                    <a href="/" target="_blank"
+                    <a href="https://anonymous.4open.science/r/Traj2Action-B5FB" target="_blank"
                     class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fab fa-github"></i>
@@ -103,19 +72,18 @@
                   </a>
                 </span>
                 <!-- Hugging face link -->
-                 <span class="link-block">
+                 <!-- <span class="link-block">
                   <a href="/" target="_blank"
                   class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
-                    <!-- 插入svgicon            -->
                      <i class="fa fa-database"></i>
                   </span>
                   <span>Dataset</span>
                 </a>
-              </span>
+              </span> -->
 
                 <!-- ArXiv abstract Link -->
-                <span class="link-block">
+                <!-- <span class="link-block">
                   <a href="/" target="_blank"
                   class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
@@ -123,8 +91,94 @@
                   </span>
                   <span>arXiv</span>
                 </a>
-              </span> 
-              </div>
+              </span>  -->
+
+      <img src="static/images/main.png" height="100%" style="margin-bottom: 20px; margin-top: 20px;">
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3 has-text-centered">Learning to Act by Watching Humans</h2>
+      <br>
+      <h2 class="subtitle has-text-justified">
+       
+Why can a person learn to stack cups in seconds, while training a robot to do the same can take days of repetitive trial and error? The secret lies in the data. Robots traditionally learn from their own, often slow and costly, experiences. This data bottleneck is one of the biggest challenges in creating versatile and capable machines.
+      </h2>
+           <h2 class="subtitle has-text-justified">
+ 
+Our work explores a simple yet powerful idea: What if robots could learn complex tasks simply by watching people?
+           </h2>
+                 <h2 class="subtitle has-text-justified">
+
+We present a novel learning framework that combines a small amount of direct robot experience with a large, scalable dataset of human hand demonstrations captured by multiple cameras. Our model learns to understand the underlying intent and long-horizon strategy from human movement, and then translates this knowledge into precise actions for its own robotic body.
+                 </h2>
+                       <h2 class="subtitle has-text-justified">
+The result is a more data-efficient training process that produces more robust and successful robot policies. Dive in to see our method in action and explore the future of scalable robot learning.</h2>
+
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3 has-text-centered">Tasks Description</h2>
+      <h2 class="subtitle has-text-justified">
+             <div class="columns is-multiline is-variable is-4" style="margin-top: 1rem;">
+        <div class="column is-half">
+          <div class="box task-box">
+            <video controls autoplay muted playsinline loop style="width:100%;height:auto;display:block;border-radius:6px" poster="static/images/main.png">
+              <source src="static/videos/tasks/task1-bottle.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="has-text-centered has-text-weight-semibold" style="margin-top: 8px;">Task 1: pick up water bottle</p>
+          </div>
+        </div>
+        <div class="column is-half">
+          <div class="box task-box">
+            <video controls autoplay muted playsinline loop style="width:100%;height:auto;display:block;border-radius:6px" poster="static/images/main.png">
+              <source src="static/videos/tasks/task2-fruits.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="has-text-centered has-text-weight-semibold" style="margin-top: 8px;">Task2: pick up the tomato and put it in the yellow/blue tray</p>
+          </div>
+        </div>
+        <div class="column is-half">
+          <div class="box task-box">
+            <video controls autoplay muted playsinline loop style="width:100%;height:auto;display:block;border-radius:6px" poster="static/images/main.png">
+              <source src="static/videos/tasks/task3-rings.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="has-text-centered has-text-weight-semibold" style="margin-top: 8px;">Task 3: stack the rings on the pillar</p>
+          </div>
+        </div>
+        <div class="column is-half">
+          <div class="box task-box">
+            <video controls autoplay muted playsinline loop style="width:100%;height:auto;display:block;border-radius:6px" poster="static/images/main.png">
+              <source src="static/videos/tasks/task4-cups.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p class="has-text-centered has-text-weight-semibold" style="margin-top: 8px;">Task 4: stack the paper cups</p>
+          </div>
+        </div>
+      </div></h2>
+
+    </div>
+  </div>
+</section>
+
+
+<section class="section hero  ">
+  <div class="section tasks-container" >
+    <div class="hero-body">
+      <h2 class="title is-3 has-text-centered"></h2>
+
+
+    </div>
+  </div>
+</section>
+
           </div>
         </div>
       </div>
@@ -169,7 +223,7 @@
 
 
   <footer class="footer">
-  <div class="container">
+  <div class="container is-max-desktop">
     <div class="columns is-centered">
       <div class="column is-8">
         <div class="content">
@@ -200,21 +254,7 @@
     <script src="./static/js/dataTables.min.js"></script>
     <script src="./static/js/dataTables.bulma.min.js"></script>
     <script src="./static/js/csv_to_html_table.js"></script>
-    <script>
-      CsvToHtmlTable.init({
-        csv_path: 'static/val_result.csv', 
-        element: 'table-container', 
-        allow_download: true,
-        csv_options: {separator: ',', delimiter: '"'},
-        datatables_options: {
-          "paging": false, 
-          "order": [[1, 'desc']],
-          "columnDefs": [
-          {targets: [0], className: 'dt-left', className: 'dt-head-left'},
-          ]
-        }
-      });
-    </script>
+
   
   </body>
   </html>

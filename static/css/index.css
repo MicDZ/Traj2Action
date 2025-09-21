@@ -72,6 +72,7 @@ blue {
 }
 
 .publication-authors {
+  margin-bottom: 20px;
 }
 
 .publication-authors a {
@@ -246,6 +247,13 @@ bibtexcode {
   border: 3px solid;
 }
 
+/* Limit Tasks Description section width */
+.tasks-container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* rainbow text start */
 .rainbow {
   text-align: center;
@@ -352,6 +360,14 @@ bibtexcode {
   justify-content: center; 
   height: 100%;
   margin: 5px; 
+}
+
+/* Ensure video on top and text below inside task cards */
+.task-box {
+  flex-direction: column;
+}
+.task-box video {
+  width: 100%;
 }
 
 .leaderboard-right-border {
