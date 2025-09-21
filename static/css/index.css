@@ -366,9 +366,11 @@ bibtexcode {
 .task-box {
   flex-direction: column;
   position: relative;
+  overflow: visible; /* allow hover card to escape */
 }
 .task-box video {
   width: 100%;
+  z-index: 2;
 }
 
 /* Task hover: show description on hover */
@@ -393,19 +395,21 @@ bibtexcode {
   display: none;
   position: absolute;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 96%;
-  max-width: none;
+  top: calc(100% + 10px); /* appear below the video */
+  transform: translateX(-50%);
+  width: 720px;
+  max-width: 90vw;
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: saturate(120%) blur(2px);
   border: 1px solid rgba(0,0,0,0.08);
   box-shadow: 0 8px 24px rgba(0,0,0,0.15);
   padding: 14px 16px;
   border-radius: 8px;
-  z-index: 2;
+  z-index: 999; /* overlay over other cards */
 }
 .task-box:hover .task-hover-card { display: block; }
+/* Keep column height stable */
+.columns .column { position: relative; }
 
 /* When hover card shows, hide the bottom task name */
 .task-box:hover .task-desc {
@@ -418,13 +422,14 @@ bibtexcode {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.20);
+  background: transparent; /* don't dim or block the video */
   opacity: 0;
   transition: opacity 0.18s ease-in-out;
   border-radius: 6px;
   z-index: 1;
+  pointer-events: none; /* let clicks pass to the video */
 }
-.task-box:hover::after { opacity: 1; }
+.task-box:hover::after { opacity: 0; }
 
 .leaderboard-right-border {
   border-right: 1px solid #cdd0d4
