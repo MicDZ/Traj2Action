@@ -385,6 +385,7 @@ bibtexcode {
   border-radius: 4px;
   z-index: 3;
   pointer-events: none;
+  transition: opacity 0.18s ease-in-out, visibility 0.18s ease-in-out;
 }
 
 /* Hover card content */
@@ -405,6 +406,12 @@ bibtexcode {
   z-index: 2;
 }
 .task-box:hover .task-hover-card { display: block; }
+
+/* When hover card shows, hide the bottom task name */
+.task-box:hover .task-desc {
+  opacity: 0;
+  visibility: hidden;
+}
 
 /* Optional dim overlay on hover to focus attention */
 .task-box::after {
