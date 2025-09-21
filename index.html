@@ -124,15 +124,20 @@ The result is a more data-efficient training process that produces more robust a
   <div class="container is-max-desktop">
     <div class="hero-body">
       <h2 class="title is-3 has-text-centered">Tasks Description</h2>
-      <h2 class="subtitle has-text-justified">
-             <div class="columns is-multiline is-variable is-4" style="margin-top: 1rem;">
+   <h2 style="margin-bottom: 30px;">
+      <div class="columns is-multiline is-variable is-4" style="margin-top: 1rem;">
+     
         <div class="column is-half">
           <div class="box task-box">
             <video controls autoplay muted playsinline loop style="width:100%;height:auto;display:block;border-radius:6px" poster="static/images/main.png">
               <source src="static/videos/tasks/task1-bottle.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
-            <p class="has-text-centered has-text-weight-semibold" style="margin-top: 8px;">Task 1: pick up water bottle</p>
+            <p class="has-text-centered has-text-weight-semibold task-desc" style="margin-top: 8px;">Task 1: pick up water bottle</p>
+            <div class="task-hover-card">
+              <p class="title is-6">Task 1: pick up water bottle</p>
+              <p class="is-size-6">The robot arm is tasked with locating a water bottle placed on a tabletop, moving towards it, and grasping it successfully. This task evaluates the model's fundamental pick-and-place capabilities.</p>
+            </div>
           </div>
         </div>
         <div class="column is-half">
@@ -141,7 +146,11 @@ The result is a more data-efficient training process that produces more robust a
               <source src="static/videos/tasks/task2-fruits.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
-            <p class="has-text-centered has-text-weight-semibold" style="margin-top: 8px;">Task2: pick up the tomato and put it in the yellow/blue tray</p>
+            <p class="has-text-centered has-text-weight-semibold task-desc" style="margin-top: 8px;">Task2: pick up the tomato and put it in the yellow/blue tray</p>
+            <div class="task-hover-card">
+              <p class="title is-6">Task 2: pick up the tomato and put it in the yellow/blue tray</p>
+              <p class="is-size-6">The workspace contains a tomato and two trays, one yellow and one blue. The robot must pick up the tomato and place it into the tray specified by a language command (e.g., "the yellow tray"). This task tests the policy's ability to ground language instructions to specific objects and goals.</p>
+            </div>
           </div>
         </div>
         <div class="column is-half">
@@ -150,7 +159,11 @@ The result is a more data-efficient training process that produces more robust a
               <source src="static/videos/tasks/task3-rings.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
-            <p class="has-text-centered has-text-weight-semibold" style="margin-top: 8px;">Task 3: stack the rings on the pillar</p>
+            <p class="has-text-centered has-text-weight-semibold task-desc" style="margin-top: 8px;">Task 3: stack the rings on the pillar</p>
+            <div class="task-hover-card">
+              <p class="title is-6">Task 3: stack the rings on the pillar</p>
+              <p class="is-size-6">The scene includes a pillar (composed of a yellow column and a blue base), a yellow ring, and a red ring. The robot needs to pick up both rings, one by one, and place them onto the pillar. This task assesses multi-step object manipulation and precision.</p>
+            </div>
           </div>
         </div>
         <div class="column is-half">
@@ -159,10 +172,21 @@ The result is a more data-efficient training process that produces more robust a
               <source src="static/videos/tasks/task4-cups.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
-            <p class="has-text-centered has-text-weight-semibold" style="margin-top: 8px;">Task 4: stack the paper cups</p>
+            <p class="has-text-centered has-text-weight-semibold task-desc" style="margin-top: 8px;">Task 4: stack the paper cups</p>
+            <div class="task-hover-card">
+              <p class="title is-6">Task 4: stack the paper cups</p>
+              <p class="is-size-6">Three paper cups are placed on the table. The robot is required to stack them sequentially to form a single tower. This task evaluates the policy's ability to handle deformable objects and perform iterative, precise placement.</p>
+            </div>
           </div>
         </div>
-      </div></h2>
+      </div>
+    </h2>
+      <h2 class="subtitle has-text-justified">
+        We designed four distinct tasks to assess the capabilities of our policy in terms of basic manipulation, understanding of instructions, handling of multi-step logic, and precise object placement. Hover over each task video to see a detailed description.
+      </h2>
+
+      
+      </div>
 
     </div>
   </div>

@@ -365,10 +365,59 @@ bibtexcode {
 /* Ensure video on top and text below inside task cards */
 .task-box {
   flex-direction: column;
+  position: relative;
 }
 .task-box video {
   width: 100%;
 }
+
+/* Task hover: show description on hover */
+/* hide simple label; we'll use hover card instead */
+.task-box .task-desc {
+  display: block;
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border-radius: 4px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Hover card content */
+.task-hover-card {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 96%;
+  max-width: none;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: saturate(120%) blur(2px);
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  padding: 14px 16px;
+  border-radius: 8px;
+  z-index: 2;
+}
+.task-box:hover .task-hover-card { display: block; }
+
+/* Optional dim overlay on hover to focus attention */
+.task-box::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.20);
+  opacity: 0;
+  transition: opacity 0.18s ease-in-out;
+  border-radius: 6px;
+  z-index: 1;
+}
+.task-box:hover::after { opacity: 1; }
 
 .leaderboard-right-border {
   border-right: 1px solid #cdd0d4
