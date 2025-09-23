@@ -133,9 +133,9 @@ The result is a more data-efficient training process that produces more robust a
               <source src="static/videos/tasks/task1-bottle.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
-            <p class="has-text-centered has-text-weight-semibold task-desc" style="margin-top: 8px;">Task 1: pick up water bottle</p>
+            <p class="has-text-centered has-text-weight-semibold task-desc" style="margin-top: 8px;">Task 1: pick up the water bottle</p>
             <div class="task-hover-card">
-              <p class="title is-6">Task 1: pick up water bottle</p>
+              <p class="title is-6">Task 1: pick up the water bottle</p>
               <p class="is-size-6">The robot arm is tasked with locating a water bottle placed on a tabletop, moving towards it, and grasping it successfully. This task evaluates the model's fundamental pick-and-place capabilities.</p>
             </div>
           </div>
@@ -204,6 +204,70 @@ The result is a more data-efficient training process that produces more robust a
 
     </div>
   </div>
+</section>
+
+<!-- Comparison Section (Banner Carousel) -->
+<section id="comparison" class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3 has-text-centered">Evaluation Videos</h2>
+      <h2 class="subtitle has-text-justified">
+        We evaluate our method on a suite of four manipulation tasks, each designed to test different aspects of robotic skill transfer from human demonstrations. 
+      </h2>
+      <hr>
+      <h2 class="title is-4 has-text-centered">pick up the water bottle</h2>
+
+
+            <div class="comparison-banner">
+        <button class="cmp-nav cmp-prev" id="btl-prev" aria-label="Previous video">
+          <span class="icon"><i class="fas fa-chevron-left"></i></span>
+        </button>
+        
+        <div class="cmp-stage">
+
+          <div class="cmp-title" id="btl-task-title">pick up the water bottle</div>
+          <video id="btl-video" playsinline muted loop controls poster="static/images/main.png"></video>
+        </div>
+        <button class="cmp-nav cmp-next" id="btl-next" aria-label="Next video">
+          <span class="icon"><i class="fas fa-chevron-right"></i></span>
+        </button>
+        <div class="cmp-counter" id="btl-counter">1/1</div>
+      </div>
+      <p class="is-size-7 has-text-grey has-text-centered" style="margin-top: 0.5rem;">path: static/videos/comparison/bottle_compare_video/</p>
+      <hr>
+
+      <h2 class="title is-4 has-text-centered">pick up the tomato and put it in the yellow/blue tray</h2>
+      <div class="field has-addons has-addons-centered" style="margin-bottom: 0.75rem;">
+        <p class="control"><button id="cmp-yellow" class="button is-small is-link is-light" aria-pressed="true">Yellow</button></p>
+        <p class="control"><button id="cmp-blue" class="button is-small is-light" aria-pressed="false">Blue</button></p>
+      </div>
+
+      <div class="comparison-banner">
+        <button class="cmp-nav cmp-prev" id="cmp-prev" aria-label="Previous video">
+          <span class="icon"><i class="fas fa-chevron-left"></i></span>
+        </button>
+        <div class="cmp-stage">
+          <div class="cmp-title" id="cmp-task-title">pick up the tomato and put it in the yellow tray</div>
+          <video id="cmp-video" playsinline muted loop controls poster="static/images/main.png"></video>
+        </div>
+        <button class="cmp-nav cmp-next" id="cmp-next" aria-label="Next video">
+          <span class="icon"><i class="fas fa-chevron-right"></i></span>
+        </button>
+        <div class="cmp-counter" id="cmp-counter">1/1</div>
+      </div>
+      <p class="is-size-7 has-text-grey has-text-centered" style="margin-top: 0.5rem;">path: static/videos/comparison/fruits_compare_480/<span id="cmp-current-label">yellow</span>/</p>
+    </div>
+  </div>
+</section>
+
+<!-- Bottle Comparison Section (Banner Carousel) -->
+<section id="comparison-bottle" class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+
+    </div>
+  </div>
+  
 </section>
 
           </div>

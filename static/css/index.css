@@ -263,7 +263,7 @@ bibtexcode {
   letter-spacing: 5px;
 }
 .rainbow_text_animated {
-  background: linear-gradient(to right, #799EFF, #a7fa5e, #FFDE63, #FFBC4C);
+  background: linear-gradient(to right, #799EFF, #a3dd70, #FFDE63, #FFBC4C);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -461,4 +461,128 @@ bibtexcode {
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+/* Comparison grid */
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+@media (max-width: 1024px) {
+  .comparison-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .comparison-grid { grid-template-columns: 1fr; }
+}
+.cmp-card.box {
+  flex-direction: column;
+  padding: 10px;
+}
+.cmp-media { width: 100%; }
+.comparison-grid .cmp-media video {
+  position: static;
+  left: auto;
+  transform: none;
+  display: block;
+}
+
+/* Comparison banner */
+.comparison-banner {
+  position: relative;
+  display: block;
+  width: 100% !important;
+  max-width: none !important;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+.comparison-banner .cmp-stage {
+  position: relative;
+  width: 100% !important;
+  height: 0;
+  padding-bottom: 45%; /* shorter banner on desktop */
+  background: #f6f8fa;
+}
+@media (max-width: 1024px) {
+  .comparison-banner .cmp-stage { padding-bottom: 50%; }
+}
+@media (max-width: 640px) {
+  .comparison-banner .cmp-stage { padding-bottom: 56.25%; } /* keep readable on phones */
+}
+.comparison-banner .cmp-title {
+  position: absolute;
+  top: 14px; left: 50%; transform: translateX(-50%);
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 16px;
+  z-index: 4;
+  max-width: calc(100% - 24px);
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.comparison-banner .cmp-stage video {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  transform: none; /* override global video centering */
+}
+.comparison-banner .cmp-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: 999px;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease-in-out;
+  z-index: 3;
+}
+.comparison-banner .cmp-nav:hover { background: #fff; }
+.comparison-banner .cmp-prev { left: 8px; }
+.comparison-banner .cmp-next { right: 8px; }
+.comparison-banner .cmp-counter {
+  position: absolute;
+  bottom: 8px; left: 50%; transform: translateX(-50%);
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 2;
+}
+
+/* Subtitles above banners */
+.cmp-subtitle {
+  margin-top: 0.25rem;
+}
+
+/* Ensure bottle section uses full width consistently */
+#comparison-bottle,
+#comparison-bottle .container,
+#comparison-bottle .hero-body,
+#comparison-bottle .comparison-banner,
+#comparison-bottle .cmp-stage {
+  width: 100% !important;
+  max-width: none !important;
+  display: block;
+}
+
+/* Normalize section content width */
+#comparison .hero-body,
+#comparison-bottle .hero-body {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
 }
