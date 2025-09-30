@@ -219,10 +219,114 @@ The result is a more data-efficient training process that produces more robust a
 <section class="section hero  ">
   <div class="section tasks-container" >
     <div class="hero-body">
-      <h2 class="title is-3 has-text-centered"></h2>
-
-
+      <h2 class="title is-3 has-text-centered">Results</h2>
+  <table>
+<thead>
+  <tr>
+    <th rowspan="2" class="left-align">Model Variants</th>
+    <th colspan="2">      
+      <span class="tooltip">
+        SH (SR %)
+        <span class="tooltiptext">Short-Horizon (Success Rate)</span>
+      </span>
+    </th>
+    <th colspan="2">
+      <span class="tooltip">
+        LH (TP %)
+        <span class="tooltiptext">Long-Horizon (Task Progress)</span>
+      </span>
+    </th>
+    <th colspan="2">Avg. Improvement</th>
+  </tr>
+  <tr>
+    <th>
+      <span class="tooltip">
+        PWB
+        <span class="tooltiptext">pick up the water bottle</span>
+      </span>
+    </th>
+    <th>
+      <span class="tooltip">
+        PTT
+        <span class="tooltiptext">pick up the tomato and put it in the tray</span>
+      </span>
+    </th>
+    <th>
+      <span class="tooltip">
+        SRP
+        <span class="tooltiptext">stack the rings on the pillar</span>
+      </span>
+    </th>
+    <th>
+      <span class="tooltip">
+        SPC
+        <span class="tooltiptext">stack the paper cups</span>
+      </span>
+    </th>
+    <th>
+      <span class="tooltip">
+        SH (SR %)
+        <span class="tooltiptext">Short-Horizon (Success Rate)</span>
+      </span>
+    </th>
+    <th>
+      <span class="tooltip">
+        LH (TP %)
+        <span class="tooltiptext">Long-Horizon (Task Progress)</span>
+      </span>
+    </th>
+  </tr>
+</thead>
+    <tbody>
+      <tr>
+        <td class="left-align">Baseline (π₀)</td>
+        <td>48</td>
+        <td>50</td>
+        <td>23.75</td>
+        <td>37.75</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td class="left-align">+ Trajectory Expert</td>
+        <td>58</td>
+        <td>60</td>
+        <td>33.50</td>
+        <td>54.25</td>
+        <td>+10.00</td>
+        <td>+13.13</td>
+      </tr>
+      <tr>
+        <td class="left-align">+ Traj. Expert + Human Data</td>
+        <td>76</td>
+        <td>76</td>
+        <td>44.75</td>
+        <td>61.25</td>
+        <td>+27.00</td>
+        <td>+22.25</td>
+      </tr>
+    </tbody>
+    <caption style="margin-bottom: 20px;">Performance comparison.</caption>
+  </table>
+  <h2 class="subtitle has-text-justified" style="margin-top: 1rem;">
+    <b>Contribution of Trajectory Expert</b>&nbsp;
+  Adding a trajectory expert boosts performance, especially on Long-Horizon tasks (e.g., SPC score: 37.75% → 54.25%, +16.50%). The expert generates a coarse spatio-temporal plan that simplifies low-level control. Without it, simply adding human data gives only minimal gains (52% vs. 50%), showing that the unified trajectory space is key to bridging the human–robot gap.
+  </h2>
+    <h2 class="subtitle has-text-justified" style="margin-top: 1rem;">
+  <b>Contribution of Human Data</b>&nbsp;
+  Integrating human demonstrations further improves results across tasks (e.g., +28% on PWB, +26% on PTT, +23.5% on SPC, +21% on SRP). Human data brings diverse motions that help the model handle difficult, long-horizon tasks, leading to more robust, generalizable plans.
+  </h2>
+  <div class="columns is-centered" style="margin-top: 2rem; margin-bottom: 2rem;">
+    <div class="column is-half has-text-centered">
+      <img src="/static/images/performance_hand_data_scale.jpg" alt="Image 1" style="max-width:100%; border-radius:8px;">
+      <p class="is-size-6" style="margin-top: 0.5rem;"><i>Impact of Human Data Scale on Policy Performance.</i></p>
     </div>
+    <div class="column is-half has-text-centered">
+      <img src="/static/images/fps.jpg" alt="Image 2" style="max-width:60%; border-radius:8px;">
+      <p class="is-size-6" style="margin-top: 0.5rem;"><i>Ablation study on the effect of different trajectory sampling frequencies (FPS) on model performance.</i></p>
+    </div>
+  </div>
+  </div>
   </div>
 </section>
 

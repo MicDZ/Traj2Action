@@ -586,3 +586,47 @@ bibtexcode {
   margin-left: auto;
   margin-right: auto;
 }
+ table {
+      border-collapse: collapse;
+      margin: 40px auto;
+      font-size: 15px;
+      text-align: center;
+      width: 85%;
+    }
+    th, td {
+      padding: 6px 12px;
+    }
+    .left-align {
+      text-align: left;
+    }
+    /* Top rule */
+    table thead tr:first-child th {
+      border-top: 2px solid black;
+    }
+    /* Header bottom rule */
+    thead tr:last-child th {
+      border-bottom: 2px solid black;
+    }
+    /* Thin rules between body rows */
+    tbody tr td {
+      border-bottom: 1px solid #999;
+    }
+    /* Bottom rule */
+    tbody tr:last-child td {
+      border-bottom: 2px solid black;
+      font-weight: bold;
+    }
+    /* Bold header labels */
+    thead th {
+      font-weight: bold;
+    }
+    abbr {
+      text-decoration: none;
+      cursor: help;          
+    }
+    caption {
+  caption-side: bottom;
+  text-align: center; 
+  font-style: italic;
+  margin-top: 8px;   
+}
