@@ -24,6 +24,7 @@ Code coming soon!
 ## Model Zoo
 
 ## Contact
+During the review process, we will keep anonymous.
 
 ## Citation
 ```tex
@@ -32,6 +33,6 @@ Code coming soon!
   author={},
   booktitle={},
   pages={},
-  year={}
+  year={2026}
 }
 ```

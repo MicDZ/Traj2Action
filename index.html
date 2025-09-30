@@ -46,7 +46,6 @@
             <h1 class="title is-1 publication-title" ><span class="rainbow_text_animated">From Human Hands to Robot Arms</span>&nbsp;<img src="static/images/logo.png" width="60"><br> <div style="font-size:2rem"> Manipulation Skills Transfer via Trajectory Alignment</div></h1>
             <div class="is-size-5 publication-authors">
               <!-- Paper authors -->
-               Paper under review at ICLR 2026
             </div>
 
                   <!-- <div class="content has-text-centered">
@@ -63,7 +62,7 @@
 
                   <!-- Github link -->
                   <span class="link-block">
-                    <a href="https://anonymous.4open.science/r/Traj2Action-B5FB" target="_blank"
+                    <a href="https://anonymous.4open.science/r/Traj2Action-4A45/" target="_blank"
                     class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fab fa-github"></i>
@@ -93,9 +92,29 @@
                 </a>
               </span>  -->
 
-      <img src="static/images/main.png" height="100%" style="margin-bottom: 20px; margin-top: 20px;">
-</section>
+                 <video controls autoplay muted playsinline loop style="width:90%;max-width: 900px; height:auto;display:block;border-radius:6px; margin-bottom: 20px; margin-top: 20px;" poster="static/images/main.png">
+        <source src="static/videos/teaser.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
 
+ 
+</section>
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-five-sixths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Learning diverse manipulation skills for real-world robots is severely bottlenecked by the reliance on costly and hard-to-scale teleoperated demonstrations. While human videos offer a scalable alternative, effectively transferring manipulation knowledge is fundamentally hindered by the significant morphological gap between human and robotic embodiments. To address this challenge and facilitate skill transfer from human to robot, we introduce <b>Traj2Action</b>,a novel framework that bridges this embodiment gap by using the 3D trajectory of the operational endpoint as a unified intermediate representation, and then transfers the manipulation knowledge embedded in this trajectory to the robot's actions. Our policy first learns to generate a coarse trajectory, which forms an high-level motion plan by leveraging both human and robot data. This plan then conditions the synthesis of precise, robot-specific actions (e.g., orientation and gripper state) within a co-denoising framework. Extensive real-world experiments on a Franka robot demonstrate that Traj2Action boosts the performance by up to <b>27%</b> and <b>22.25%</b> over 
+ baseline on short- and long-horizon real-world tasks, and achieves significant gains as human data scales in robot policy learning.
+          </p>
+      <img src="static/images/main.png" height="100%" style="margin-bottom: 20px; margin-top: 20px;">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
@@ -118,6 +137,7 @@ The result is a more data-efficient training process that produces more robust a
 
     </div>
   </div>
+
 </section>
 
 <section class="hero is-light">
@@ -290,6 +310,7 @@ The result is a more data-efficient training process that produces more robust a
 
 
 <!-- Paper abstract -->
+ 
 
 <!-- End paper abstract -->
 
