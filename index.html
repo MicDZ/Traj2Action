@@ -99,26 +99,35 @@
 
  
 </section>
-<section class="section hero">
+<section class="section hero is-light">
   <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
       <div class="column is-five-sixths">
         <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
-            Learning diverse manipulation skills for real-world robots is severely bottlenecked by the reliance on costly and hard-to-scale teleoperated demonstrations. While human videos offer a scalable alternative, effectively transferring manipulation knowledge is fundamentally hindered by the significant morphological gap between human and robotic embodiments. To address this challenge and facilitate skill transfer from human to robot, we introduce <b>Traj2Action</b>,a novel framework that bridges this embodiment gap by using the 3D trajectory of the operational endpoint as a unified intermediate representation, and then transfers the manipulation knowledge embedded in this trajectory to the robot's actions. Our policy first learns to generate a coarse trajectory, which forms an high-level motion plan by leveraging both human and robot data. This plan then conditions the synthesis of precise, robot-specific actions (e.g., orientation and gripper state) within a co-denoising framework. Extensive real-world experiments on a Franka robot demonstrate that Traj2Action boosts the performance by up to <b>27%</b> and <b>22.25%</b> over 
- baseline on short- and long-horizon real-world tasks, and achieves significant gains as human data scales in robot policy learning.
-          </p>
-      <img src="static/images/main.png" height="100%" style="margin-bottom: 20px; margin-top: 20px;">
+        <div style="display: flex; justify-content: center;">
+          <h2 class="subtitle has-text-justified" style="max-width: 800px; align-self: center;">
+            <p>
+              Learning diverse manipulation skills for real-world robots is severely bottlenecked by the reliance on costly and hard-to-scale teleoperated demonstrations. While human videos offer a scalable alternative, effectively transferring manipulation knowledge is fundamentally hindered by the significant morphological gap between human and robotic embodiments. To address this challenge and facilitate skill transfer from human to robot, we introduce <b>Traj2Action</b>,a novel framework that bridges this embodiment gap by using the 3D trajectory of the operational endpoint as a unified intermediate representation, and then transfers the manipulation knowledge embedded in this trajectory to the robot's actions. Our policy first learns to generate a coarse trajectory, which forms an high-level motion plan by leveraging both human and robot data. This plan then conditions the synthesis of precise, robot-specific actions (e.g., orientation and gripper state) within a co-denoising framework. Extensive real-world experiments on a Franka robot demonstrate that Traj2Action boosts the performance by up to <b>27%</b> and <b>22.25%</b> over 
+         baseline on short- and long-horizon real-world tasks, and achieves significant gains as human data scales in robot policy learning.
+            </p>
+          </h2>
         </div>
+
       </div>
     </div>
   </div>
 </section>
-<section class="hero teaser">
+
+<section class="section hero">
+  <div class="container is-max-desktop">
+        <img src="static/images/main.png" height="100%" style="margin-bottom: 20px; margin-top: 20px;">
+  </div>
+</section>
+
+<!-- <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <h2 class="title is-3 has-text-centered">Learning to Act by Watching Humans</h2>
+      <h2 class="title is-3 has-text-centered" style="margin-top: 20px;">Learning to Act by Watching Humans</h2>
       <br>
       <h2 class="subtitle has-text-justified">
        
@@ -138,15 +147,14 @@ The result is a more data-efficient training process that produces more robust a
     </div>
   </div>
 
-</section>
+</section> -->
 
 <section class="hero is-light">
   <div class="container is-max-desktop">
     <div class="hero-body">
       <h2 class="title is-3 has-text-centered">Tasks Description</h2>
-   <h2 style="margin-bottom: 30px;">
-      <div class="columns is-multiline is-variable is-4" style="margin-top: 1rem;">
-     
+   <h2 >
+      <div class="columns is-multiline is-variable is-4">
         <div class="column is-half">
           <div class="box task-box">
             <video controls autoplay muted playsinline loop style="width:100%;height:auto;display:block;border-radius:6px" poster="static/images/main.png">
@@ -308,6 +316,7 @@ The result is a more data-efficient training process that produces more robust a
     </tbody>
     <caption style="margin-bottom: 20px;">Performance comparison.</caption>
   </table>
+
   <h2 class="subtitle has-text-justified" style="margin-top: 1rem;">
     <b>Contribution of Trajectory Expert</b>&nbsp;
   Adding a trajectory expert boosts performance, especially on Long-Horizon tasks (e.g., SPC score: 37.75% → 54.25%, +16.50%). The expert generates a coarse spatio-temporal plan that simplifies low-level control. Without it, simply adding human data gives only minimal gains (52% vs. 50%), showing that the unified trajectory space is key to bridging the human–robot gap.
@@ -326,6 +335,72 @@ The result is a more data-efficient training process that produces more robust a
       <p class="is-size-6" style="margin-top: 0.5rem;"><i>Ablation study on the effect of different trajectory sampling frequencies (FPS) on model performance.</i></p>
     </div>
   </div>
+  <h2 class="subtitle has-text-justified" style="margin-top: 1rem;">
+  <b>Impact of Human Data Scale</b>&nbsp;
+Performance improves steadily with more human demonstrations. For example, success on pick up the tomato and put it in the tray rises from 68% (no human data) to 76% with 460 demos. On the harder stack the paper cups task, 264 demos lift performance from 37.75% to 57.50%, reaching 61.25% with all 460 demos. This confirms that larger human datasets significantly enhance robot learning.
+</h2>
+<table>
+  <caption>
+    Performance comparison for the <em>pick up the tomato and put it in the tray</em> task under different data collection strategies.
+  </caption>
+  <thead>
+    <tr>
+      <th style="text-align:left;">Strategy</th>
+      <th>Robot Data<br/>(#/min)</th>
+      <th>Human Data<br/>(#/min)</th>
+      <th>Total Data Time<br/>(min)</th>
+      <th>Performance<br/>SR(%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left;">Baseline</td>
+      <td>408 / 202.29</td>
+      <td>—</td>
+      <td>202.29</td>
+      <td>50</td>
+    </tr>
+
+    <tr>
+      <td style="text-align:left;">+ Trajectory Expert<br/>+ Robot Data-Only</td>
+      <td>408 / 202.29</td>
+      <td>0 / 0</td>
+      <td>202.29</td>
+      <td>60</td>
+    </tr>
+
+    <tr>
+      <td rowspan="3" style="text-align:left;">+ Trajectory Expert<br/>+ Human &amp; Robot Data</td>
+      <td rowspan="3">270 / 133.70</td>
+      <td>120 / 14.25</td>
+      <td>147.95</td>
+      <td>58</td>
+    </tr>
+    <tr>
+      <td>240 / 28.61</td>
+      <td>162.31</td>
+      <td>60</td>
+    </tr>
+    <tr style="border-bottom: 2px solid black;">
+      <td>635 / 75.39</td>
+      <td>209.09</td>
+      <td>62</td>
+    </tr>
+  </tbody>
+</table>
+
+  <h2 class="subtitle has-text-justified" style="margin-top: 1rem;">
+  <b>Human Data as a Substitute</b>&nbsp;
+Human data can replace expensive robot data while maintaining or improving results. With 240 human demos plus fewer robot demos, performance matches robot-only training (60%) but cuts collection time by 20%. With 635 human demos, results surpass the baseline (62%). Even 120 demos achieve 58%, close to robot-only performance. Human data is thus scalable, cost-effective, and efficient for training.
+  </h2>
+  <h2 class="subtitle has-text-justified" style="margin-top: 1rem;">
+  <b>Impact of Trajectory Sampling Frequency</b>&nbsp;
+Aligning human and robot motion speeds is critical. Best results (76% success) come from sampling human trajectories at 30 FPS and robot ones at 10 FPS (a 3:1 ratio). This alignment prevents temporal mismatches and leads to more effective cross-embodiment learning.
+  </h2>
+  <h2 class="subtitle has-text-justified" style="margin-top: 1rem;">
+  <b>Zero-Shot Generalization</b>&nbsp;
+When trained only on placing tomatoes in a yellow tray, the policy still achieved 12% success when asked to use a blue tray — showing it can generalize to unseen tasks instead of just memorizing training data.
+  </h2>
   </div>
   </div>
 </section>
@@ -334,7 +409,9 @@ The result is a more data-efficient training process that produces more robust a
 <section id="comparison" class="section hero is-light">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <h2 class="title is-3 has-text-centered">Evaluation Videos</h2>
+      <h2 id="evaluation_videos" class="title is-3 has-text-centered">
+  Evaluation Videos
+</h2>
       <h2 class="subtitle has-text-justified">
         We evaluate our method on a suite of four manipulation tasks, each designed to test different aspects of robotic skill transfer from human demonstrations. 
       </h2>
@@ -445,7 +522,7 @@ The result is a more data-efficient training process that produces more robust a
         <div class="content">
 
           <p>
-            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            <!-- This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page. -->
             
           </p>
 

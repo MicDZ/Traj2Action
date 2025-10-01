@@ -5,10 +5,10 @@ import json
 # --- 配置区 ---
 
 # 1. 设置你的视频所在的文件夹路径
-INPUT_FOLDER = "/Users/micdz/SPECIFIC_DIR/Traj2Action/static/videos/tasks/origin" 
+INPUT_FOLDER = "/Users/SPECIFIC_USERNAME/SPECIFIC_DIR/Traj2Action/static/videos/tasks/origin" 
 
 # 2. 设置处理完成后视频的保存路径
-OUTPUT_FOLDER = "/Users/micdz/SPECIFIC_DIR/Traj2Action/static/videos/tasks/"
+OUTPUT_FOLDER = "/Users/SPECIFIC_USERNAME/SPECIFIC_DIR/Traj2Action/static/videos/tasks/"
 
 # 3. 定义要处理的视频文件扩展名 (小写)
 VIDEO_EXTENSIONS = ('.mp4', '.mov', '.avi', '.mkv', '.flv')

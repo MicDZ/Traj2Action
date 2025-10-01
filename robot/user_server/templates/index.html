@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobile adaptation [[8]] -->
+    <title>Robot Operation Control</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max            .catch(error => {
+                console.error('Start request failed:', error);
+                messageDiv.textContent = 'Request sending failed, please check network or server.';
+                messageDiv.className = 'status-stopped';
+                //  setTimeout(() => { messageDiv.textContent = ''; messageDiv.className = ''; }, 5000);
+            });: 90%; /* Limit maximum width */
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        select, input[type="text"], button {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box; /* Include padding and border */
+            font-size: 26px;
+        }
+        button {
+            color: rgb(0, 0, 0);
+            border: none;
+            cursor: pointer;
+            font-size: 26px;
+            margin-top: 5px;
+            height: 100px;
+            
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 24px;
+        }
+        #message {
+            text-align: center;
+            font-size: 18px;
+        }
+        .button-start {
+            background-color: #7ebb8c;
+        }
+        .button-start:hover {
+            background-color: #188a33;
+        }
+        .button-start:disabled {
+            background-color: #cccccc; /* Gray */
+        }
+        .button-stop {
+            background-color: #f44336; /* Red */
+        }
+        .button-stop:hover {
+            background-color: #d32f2f; /* Dark red */
+        }
+        .button-stop:disabled {
+            background-color: #cccccc; /* Gray */
+        }
+        .button-remove {
+            background-color: #ffc107; /* Yellow */
+        }
+        .button-remove:hover {
+            background-color: #ffa000; /* Dark yellow */
+        }
+        .button-remove:disabled {
+            background-color: #cccccc; /* Gray */
+        }
+        .button-calibrate {
+            background-color: #99e7ff; /* Blue */
+            height: 60px;
+        }
+        .button-calibrate:hover {
+            background-color: #68cdfc; /* Dark blue */
+        }
+        .button-calibrate:disabled {
+            background-color: #cccccc; /* Gray */
+        }
+        .status-recording {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status-stopped {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status-info {
+            background-color: #cce5ff; /* Optional: Information status */
+            color: #004085;
+            border: 1px solid #b8daff;
+        }
+         /* Responsive design example */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 500px; /* Limit width on larger screens */
+            }
+             /* Can use media queries for finer adjustments */
+        }
+        .button-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .button-row button {
+            flex: 1;
+            margin-top: 15px;
+        }
+        
+        .single-button {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="form-group">
+
+            <select id="taskSelect">
+                <option value="">-- Please select a task --</option>
+                {% if tasks %}
+                <option value="{{ tasks[0] }}" selected>{{ tasks[0] }}</option>
+                {% for task in tasks[1:] %}
+                <option value="{{ task }}">{{ task }}</option>
+                {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="text" id="customTask" placeholder="Or enter custom task description...">
+        </div>
+        <div class="button-row">
+            <button class="single-button" id="resetCounterBtn" style="width: 80px; font-size: 18px; height: auto; background: #eee;">Reset Counter</button>
+            <div id="counterDisplay" style="font-size: 38px; justify-content: center; justify-self: center; align-self: center;">0</div>
+            <button class="button-calibrate single-button" id="resetBtnOld" style="width: 80px; font-size: 18px; height: auto; ">System Initialization</button>
+        </div>
+        <div id="calibrationStatus" style="font-size: 18px;"></div>
+
+        <button class="button-start single-button" id="startBtn">Start Task</button>
+        <button class="button-calibrate single-button" id="resetBtn">Reset</button>
+        <div class="button-row">
+            <button class="button-stop" id="stopBtn" disabled>Complete Task</button>
+            <button class="button-remove" id="removeBtn" disabled>Task Failed</button>
+        </div>
+
+
+        <div id="status" class="status-stopped">Status: Not Started</div>
+        <div id="message" ></div> <!-- For displaying messages -->
+    </div>
+
+    <script>
+        const startBtn = document.getElementById('startBtn');
+        const resetBtnOld = document.getElementById('resetBtnOld');
+        const stopBtn = document.getElementById('stopBtn');
+        const removeBtn = document.getElementById('removeBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const taskSelect = document.getElementById('taskSelect');
+        const customTaskInput = document.getElementById('customTask');
+        const statusDiv = document.getElementById('status');
+        const calibrationStatusDiv = document.getElementById('calibrationStatus');
+        const messageDiv = document.getElementById('message');
+
+        let isRunning = false; // Client status tracking
+        let isCalibrating = false;
+        let hasCalibration = false;
+        let counter = 0;
+        const counterDisplay = document.getElementById('counterDisplay');
+        const resetCounterBtn = document.getElementById('resetCounterBtn');
+
+        function updateUI(running, calibrating = false, hasCalib = false) {
+            isRunning = running;
+            isCalibrating = calibrating;
+            hasCalibration = hasCalib;
+            
+            startBtn.disabled = running || calibrating;
+            resetBtnOld.disabled = running || calibrating;
+            stopBtn.disabled = !running;
+            removeBtn.disabled = !running;
+            resetBtn.disabled = running || calibrating;
+            
+            if (calibrating) {
+                statusDiv.textContent = 'Status: System initializing...';
+                statusDiv.className = 'status-info';
+            } else if (running) {
+                statusDiv.textContent = 'Status: Robot running...';
+                statusDiv.className = 'status-recording';
+            } else {
+                statusDiv.textContent = 'Status: Stopped';
+                statusDiv.className = 'status-stopped';
+            }
+            
+            // Display calibration status
+            if (hasCalibration) {
+                calibrationStatusDiv.textContent = '✓ Robot system initialized, ready to start task';
+                calibrationStatusDiv.style.color = '#28a745';
+            } else {
+                calibrationStatusDiv.textContent = '⚠ Need to initialize robot system first';
+                calibrationStatusDiv.style.color = '#dc3545';
+            }
+        }
+
+        function updateCounterDisplay() {
+            counterDisplay.textContent = `${counter}`;
+        }
+
+        resetCounterBtn.addEventListener('click', () => {
+            counter = 0;
+            updateCounterDisplay();
+        });
+
+        // Check status once when page loads
+        fetch('/status')
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    updateUI(data.recording, data.calibrating, data.has_calibration);
+                }
+            })
+            .catch(error => console.error('Failed to get initial status:', error));
+        
+        function start_task() {
+            const selectedTask = taskSelect.value;
+            const customTask = customTaskInput.value.trim();
+
+            if (!selectedTask && !customTask) {
+                messageDiv.textContent = 'Please select a task or enter a custom task!';
+                messageDiv.className = 'status-stopped'; // Reuse style
+                setTimeout(() => { messageDiv.textContent = ''; messageDiv.className = ''; }, 3000); // Clear message after 3 seconds
+                return;
+            }
+
+            if (!hasCalibration) {
+                messageDiv.textContent = 'Please initialize the robot system first!';
+                messageDiv.className = 'status-stopped';
+                setTimeout(() => { messageDiv.textContent = ''; messageDiv.className = ''; }, 3000);
+                return;
+            }
+
+            const payload = {
+                task: selectedTask,
+                custom_task: customTask // Send custom task
+            };
+
+            fetch('/start_recording', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    updateUI(true, false, hasCalibration);
+                    messageDiv.textContent = data.message;
+                    messageDiv.className = 'status-recording';
+                     // Can process returned save_path etc. here
+                } else {
+                    messageDiv.textContent = 'Start failed: ' + data.message;
+                    messageDiv.className = 'status-stopped';
+                }
+                //  setTimeout(() => { messageDiv.textContent = ''; messageDiv.className = ''; }, 5000); // Clear message after 5 seconds
+            })
+            .catch(error => {
+                console.error('Start request failed:', error);
+                messageDiv.textContent = 'Request sending failed, please check network or server.';
+                messageDiv.className = 'status-stopped';
+                //  setTimeout(() => { messageDiv.textContent = ''; messageDiv.className = ''; }, 5000);
+            });
+        }
+        startBtn.addEventListener('click', start_task);
+
+        stopBtn.addEventListener('click', () => {
+            fetch('/stop_recording', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    updateUI(false, false, hasCalibration);
+                    messageDiv.textContent = data.message;
+                    messageDiv.className = 'status-stopped';
+                    // wait for 3 seconds before starting next task
+                    let countdown = 3.0;
+                    const countdownInterval = setInterval(() => {
+                        messageDiv.textContent = `Wait ${countdown} seconds before starting next task...`;
+                        countdown = (countdown - 0.1).toFixed(1); // Decrease by 0.1 seconds each time
+                        if (countdown < 0) {
+                            clearInterval(countdownInterval);
+                            counter += 1;
+                            updateCounterDisplay();
+                            messageDiv.textContent = 'Can start next task';
+                            setTimeout(() => { messageDiv.textContent = ''; messageDiv.className = ''; }, 2000);
+                        }
+                    }, 100); // Update countdown every 0.1 seconds
+                     // Can process returned save_path etc. here
+                } else {
+                    messageDiv.textContent = 'Stop failed: ' + data.message;
+                    messageDiv.className = 'status-stopped';
+                }
+                // setTimeout(() => { messageDiv.textContent = ''; messageDiv.className = ''; }, 5000);
+            })
+            .catch(error => {
+                console.error('Stop request failed:', error);
+                 messageDiv.textContent = 'Request sending failed, please check network or server.';
+                 messageDiv.className = 'status-stopped';
+                 setTimeout(() => { messageDiv.textContent = ''; messageDiv.className = ''; }, 5000);
+            });
+            
+        });
+
+        removeBtn.addEventListener('click', () => {
+            fetch('/remove_recording', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    updateUI(false, false, hasCalibration);
+                    messageDiv.textContent = data.message;
+                    messageDiv.className = 'status-stopped';
+                } else {
+                    messageDiv.textContent = 'Failure marking failed: ' + data.message;
+                    messageDiv.className = 'status-stopped';
+                }
+                 setTimeout(() => { messageDiv.textContent = ''; messageDiv.className = ''; }, 5000);
+            })
+            .catch(error => {
+                console.error('Failure marking request failed:', error);
+                 messageDiv.textContent = 'Request sending failed, please check network or server.';
+                 messageDiv.className = 'status-stopped';
+                 setTimeout(() => { messageDiv.textContent = ''; messageDiv.className = ''; }, 5000);
+            });
+        });
+
+        // Robot system initialization button event
+        resetBtn.addEventListener('click', () => {
+            fetch('/calibrate_cameras', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    updateUI(false, false, true);
+                    messageDiv.textContent = data.message;
+                    messageDiv.className = 'status-recording';
+                } else {
+                    updateUI(false, false, hasCalibration);
+                    messageDiv.textContent = 'Initialization failed: ' + data.message;
+                    messageDiv.className = 'status-stopped';
+                }
+                setTimeout(() => { messageDiv.textContent = ''; messageDiv.className = ''; }, 5000);
+            })
+            .catch(error => {
+                console.error('Initialization request failed:', error);
+                updateUI(false, false, hasCalibration);
+                messageDiv.textContent = 'Request sending failed, please check network or server.';
+                messageDiv.className = 'status-stopped';
+                setTimeout(() => { messageDiv.textContent = ''; messageDiv.className = ''; }, 5000);
+            });
+            
+            // Immediately update UI to show initializing status
+            updateUI(false, true, hasCalibration);
+        });
+
+        // Reset button event
+        resetBtnOld.addEventListener('click', () => {
+            if (!hasCalibration) {
+                messageDiv.textContent = 'Please initialize the robot system first!';
+                messageDiv.className = 'status-stopped';
+                setTimeout(() => { messageDiv.textContent = ''; messageDiv.className = ''; }, 3000);
+                return;
+            }
+
+            fetch('/reset_robot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    messageDiv.textContent = data.message;
+                    messageDiv.className = 'status-recording';
+                } else {
+                    messageDiv.textContent = 'Reset failed: ' + data.message;
+                    messageDiv.className = 'status-stopped';
+                }
+                setTimeout(() => { messageDiv.textContent = ''; messageDiv.className = ''; }, 3000);
+            })
+            .catch(error => {
+                console.error('Reset request failed:', error);
+                messageDiv.textContent = 'Request sending failed, please check network or server.';
+                messageDiv.className = 'status-stopped';
+                setTimeout(() => { messageDiv.textContent = ''; messageDiv.className = ''; }, 3000);
+            });
+        });
+
+        // Initialize counter display when page loads
+        updateCounterDisplay();
+    </script>
+</body>
+</html>
