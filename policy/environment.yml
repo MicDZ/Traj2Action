@@ -100,7 +100,6 @@ dependencies:
       - ffmpegcv==0.3.13
       - filelock==3.14.0
       - fire==0.6.0
-      - flash-attn==2.7.3
       - flatbuffers==25.2.10
       - fonttools==4.51.0
       - fqdn==1.5.1
@@ -420,4 +419,6 @@ dependencies:
       - zope-interface==6.4.post2
       - zope-sqlalchemy==3.1
       - zstd==1.5.7.0
+      - flash-attn==2.7.3
+
 
