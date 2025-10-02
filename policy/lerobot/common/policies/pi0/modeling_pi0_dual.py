@@ -238,8 +238,6 @@ def aloha_gripper_from_angular_inv(value):
     value = unnormalize(value, min_val=-0.6213, max_val=1.4910)
     return normalize(value, min_val=0.4, max_val=1.5)
 
-
-from ....scripts.train_debug import convert_tensor
 class PI0Policy(PreTrainedPolicy):
     """Wrapper class around PI0FlowMatching model to train and run inference within LeRobot."""
 

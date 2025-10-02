@@ -149,7 +149,6 @@ dependencies:
       - ipywidgets==8.1.7
       - isodate==0.7.2
       - isoduration==20.11.0
-      - jaxtyping==0.2.28
       - jedi==0.19.1
       - jinja2==3.1.4
       - jmespath==1.0.1
@@ -381,7 +380,6 @@ dependencies:
       - translationstring==1.4
       - tree==0.2.4
       - triton==2.2.0
-      - typeguard==2.13.3
       - types-python-dateutil==2.9.0.20250516
       - typing-extensions==4.14.1
       - typing-inspect==0.9.0
@@ -418,6 +416,6 @@ dependencies:
       - zope-interface==6.4.post2
       - zope-sqlalchemy==3.1
       - zstd==1.5.7.0
-      - flash-attn==2.7.3
+      # - flash-attn==2.7.3
 
 
