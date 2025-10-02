@@ -77,8 +77,8 @@ def make_policy(
     Returns:
         PreTrainedPolicy: _description_
     """
-    if bool(ds_meta) == bool(env_cfg):
-        raise ValueError("Either one of a dataset metadata or a sim env must be provided.")
+    # if bool(ds_meta) == bool(env_cfg):
+    #     raise ValueError("Either one of a dataset metadata or a sim env must be provided.")
 
     # NOTE: Currently, if you try to run vqbet with mps backend, you'll get this error.
     # TODO(aliberts, rcadene): Implement a check_backend_compatibility in policies?

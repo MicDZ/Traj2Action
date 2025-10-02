@@ -13,14 +13,8 @@ import torch
 from lerobot.common.datasets.factory import make_dataset
 import numpy as np
 from termcolor import colored
-from lerobot.configs.types import DictLike, FeatureType, PolicyFeature
 
-
-ds_meta_offline = {
-    "features": {'image': PolicyFeature(FeatureType.VISUAL, shape=(3, 720, 1280)), 'wrist_image': PolicyFeature(FeatureType.VISUAL, shape=(3, 720, 1280)), 
-                 'state': PolicyFeature(FeatureType.STATE, shape=(8,)),  'actions': PolicyFeature(type=FeatureType.ACTION, shape=(7,))},
-    "stats": None
-}
+from lerobot.common.ds_meta import ds_meta_offline
 
 from lerobot.common.utils.utils import (
     get_safe_torch_device,
@@ -117,6 +111,8 @@ def main(cfg: EvalPipelineConfig) -> None:
     # stats = json.load(open("/mnt/sda/zhouhan/dataset/ours_franka_ok/meta/stats.json", "r"))
     # stats = to_tensor(stats)
     # dataset = make_dataset(cfg)
+
+    # load ds_meta from file
     import json
     # load ds_meta from file
     ds_meta_file = os.path.join(cfg.policy.pretrained_path, "dataset_stats.json") if cfg.policy and cfg.policy.pretrained_path else None
@@ -126,12 +122,7 @@ def main(cfg: EvalPipelineConfig) -> None:
         # convert to tensor
         ds_meta_stats = {k: {kk: np.array(vv) for kk, vv in v.items()} for k, v in ds_meta_stats.items()}
     ds_meta_offline['stats'] = ds_meta_stats
-    policy = make_policy(
-        cfg=cfg.policy,
-        # ds_meta=dataset.meta,
-        ds_meta_offline=ds_meta_offline
-    )
-    
+    print(f'Inference policy config:{cfg.policy}')
     policy = make_policy(
         cfg=cfg.policy,
         # ds_meta=dataset.meta,
