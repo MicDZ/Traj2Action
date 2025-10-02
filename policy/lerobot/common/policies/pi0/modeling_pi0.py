@@ -313,9 +313,9 @@ class PI0Policy(PreTrainedPolicy):
         actions = self.unnormalize_outputs({"actions": actions})["actions"]
 
         if self.config.use_delta_actions:
-            # 从delta actions恢复到absolute actions
+            # Recover from delta actions to absolute actions
             # delta_actions shape: [batch_size, seq_len, action_dim]
-            # 后续项累加delta actions
+            # Subsequent items accumulate delta actions
             actions = torch.cumsum(actions, dim=-2) + absolute_state[..., :original_action_dim].unsqueeze(-2)
  
         if self.config.adapt_to_pi_aloha:

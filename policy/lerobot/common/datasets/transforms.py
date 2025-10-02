@@ -256,7 +256,7 @@ class DeltaActions(Transform):
         super().__init__()
     def forward(self, inputs: dict[str, Any]) -> Any:
         actions = inputs[ACTION]
-        # 计算相对动作：后项减前项
+        # Calculate relative actions: subtract previous from next
         # actions shape: [batch_size, seq_len, action_dim]
         delta_actions = torch.zeros_like(actions)
         delta_actions[..., 1:, :] = actions[..., 1:, :] - actions[..., :-1, :]
@@ -273,10 +273,10 @@ class AbsoluteActions(Transform):
 
         delta_actions = inputs[ACTION]
         state = inputs[OBS_ROBOT]
-        # 从delta actions恢复到absolute actions
+        # Recover from delta actions to absolute actions
         # delta_actions shape: [batch_size, seq_len, action_dim]
         absolute_actions = torch.zeros_like(delta_actions)
-        # 后续项累加delta actions
+        # Subsequent items accumulate delta actions
         absolute_actions = torch.cumsum(delta_actions, dim=-2) + state.unsqueeze(-2)
         
         return absolute_actions

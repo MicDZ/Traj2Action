@@ -403,7 +403,7 @@ def get_features_from_robot(robot: Robot, use_videos: bool = True) -> dict:
 #     for key, ft in features.items():
 #         shape = ft["shape"]
         
-#         # 根据字符串匹配确定type
+#         # Determine type based on string matching
 #         if ft["dtype"] in ["image", "video"] or "image" in key or "video" in key:
 #             type = FeatureType.VISUAL
 #             if len(shape) != 3:

@@ -1,5 +1,4 @@
-# Robot Control Library
-
+# Traj2Action: Robot Control Library
 
 ## System Architecture
 
@@ -9,6 +8,7 @@ The project follows a modular design with several key components:
 2. **Controller Environment** - Handles user input devices for robot control
 3. **Camera Environment** - Manages camera feeds for monitoring and recording
 4. **Robot Manipulation System** - Orchestrates all components during task execution
+5. **Robot Evaluation System** - Evaluates robot performance using trained policies
 
 ## Core Components
 
@@ -122,8 +122,11 @@ You can also open it in another computer in the same network.
 
 Run the robot policy execution script:
 ```sh
-python -m systems.robot_policy_system
+python -m user_server.evaluation_interface
 ```
 
-Before running, make sure the inference server is up and running.
+Before running, make sure the inference server is up and running, and the port and host are correctly set in `robot/systems/robot_policy_system.py`. You can check `policy/README.md` for instructions on how to start the inference server.
 
+Then open the address in your browser:
+```
+http://127.0.0.1:5001

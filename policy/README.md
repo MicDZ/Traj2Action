@@ -41,6 +41,15 @@ bash policy/scripts/train_pi0_accelerate_dual_combine_dataset.sh
 ```
 ### Serving the trained policy (WebSocket)
 
+Open `Traj2Action/policy/scripts/inference_pi0_dual.sh` and replace configurations with your own.
+* PROJECT_DIR: root directory of policy directory (eg. `/path/to/Traj2Action/policy`)
+* MODEL_DIR: directory containing the trained model checkpoint (eg. `/path/to/outputs/project_name/job_name/2025-09-14/pi0_09-07-11/checkpoints/100000/pretrained_model`) which is generated during training. You may find the path when training is done.
+* HOST: host IP address to bind the WebSocket server (eg. `0.0.0.0`)
+* PORT: port number to bind the WebSocket server (eg. `8000`)
+
+```bash
+bash policy/scripts/inference_pi0_dual.sh
+```
 
 ## Tips and troubleshooting
 

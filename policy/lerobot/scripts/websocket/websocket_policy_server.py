@@ -20,7 +20,7 @@ from lerobot.common.policies.pretrained import PreTrainedPolicy
 
 
 class WebsocketPolicyServer:
-    """WebSocket策略服务器，兼容openpi_client的WebsocketClientPolicy"""
+    """WebSocket policy server, compatible with openpi_client's WebsocketClientPolicy"""
 
     def __init__(
         self,
@@ -36,15 +36,15 @@ class WebsocketPolicyServer:
         self._device = device
         self._metadata = metadata or {}
         
-        # 设置日志级别
+        # Set logging level
         logging.getLogger("websockets.server").setLevel(logging.INFO)
 
     def serve_forever(self) -> None:
-        """启动服务器"""
+        """Start server"""
         asyncio.run(self.run())
 
     async def run(self):
-        """运行异步服务器"""
+        """Run async server"""
         async with websockets.asyncio.server.serve(
             self._handler,
             self._host,
@@ -56,10 +56,10 @@ class WebsocketPolicyServer:
             await server.serve_forever()
 
     async def _handler(self, websocket: websockets.asyncio.server.ServerConnection):
-        """处理WebSocket连接"""
+        """Handle WebSocket connection"""
         logging.info(f"Connection from {websocket.remote_address} opened")
         
-        # 使用msgpack_numpy进行序列化
+        # Use msgpack_numpy for serialization
         if HAS_MSGPACK:
             packer = msgpack_numpy.Packer()
             await websocket.send(packer.pack(self._metadata))
@@ -68,7 +68,7 @@ class WebsocketPolicyServer:
 
         while True:
             try:
-                # 接收和解析数据
+                # Receive and parse data
                 raw_data = await websocket.recv()
                 if HAS_MSGPACK:
                     obs = msgpack_numpy.unpackb(raw_data)
@@ -76,10 +76,10 @@ class WebsocketPolicyServer:
                     obs = json.loads(raw_data)
                 
                 with torch.autocast(device_type='cuda', dtype=torch.bfloat16):
-                    # 处理输入数据
+                    # Process input data
                     observation = {}
                     
-                    # 处理图像数据
+                    # Process image data
                     if "observation/wrist_image" in obs:
                         wrist_img = torch.from_numpy(np.array(obs["observation/wrist_image"])).float()
                         wrist_img = einops.rearrange(wrist_img, "h w c -> 1 c h w") / 255.0
@@ -101,26 +101,26 @@ class WebsocketPolicyServer:
                         human_img = einops.rearrange(human_img, "h w c -> 1 c h w") / 255.0
                         observation["human_image"] = human_img.to(self._device)
                         
-                    # 处理状态数据
+                    # Process state data
                     if "observation/state" in obs:
                         state = torch.from_numpy(np.array(obs["observation/state"])).float()
-                        state = state.unsqueeze(0)  # 添加batch维度
+                        state = state.unsqueeze(0)  # Add batch dimension
                         observation["state"] = state.to(self._device)
                     
                     if "observation/state_trajectory" in obs:
                         state_traj = torch.from_numpy(np.array(obs["observation/state_trajectory"])).float()
-                        state_traj = state_traj.unsqueeze(0)  # 添加batch维度
+                        state_traj = state_traj.unsqueeze(0)  # Add batch dimension
                         observation["state_trajectory"] = state_traj.to(self._device)
                         
-                    # 处理提示词
+                    # Process prompt
                     if "prompt" in obs:
                         observation["task"] = [obs["prompt"]]
                     
-                    # 执行模型推理
+                    # Execute model inference
                     with torch.inference_mode():
                         trajectory, action = self._policy.select_action(observation)
                     
-                    # 处理输出
+                    # Process output
                     if isinstance(action, torch.Tensor):
                         trajectory = trajectory.cpu().numpy()
                     if isinstance(action, torch.Tensor):
@@ -129,7 +129,7 @@ class WebsocketPolicyServer:
                     result = {"actions": action.tolist() if hasattr(action, 'tolist') else action, 
                               "trajectory": trajectory.tolist() if hasattr(trajectory, 'tolist') else trajectory}
                 
-                # 发送结果
+                # Send result
                 if HAS_MSGPACK:
                     await websocket.send(packer.pack(result))
                 else:
@@ -148,7 +148,7 @@ class WebsocketPolicyServer:
                 break
 
     def _json_serializer(self, obj):
-        """JSON序列化辅助函数"""
+        """JSON serialization helper function"""
         if isinstance(obj, np.ndarray):
             return obj.tolist()
         elif isinstance(obj, torch.Tensor):

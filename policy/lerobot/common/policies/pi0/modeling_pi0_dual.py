@@ -325,9 +325,9 @@ class PI0Policy(PreTrainedPolicy):
             actions = self.unnormalize_outputs({"actions": actions})["actions"]
 
             if self.config.use_delta_actions:
-                # 从delta actions恢复到absolute actions
+                # Recover from delta actions to absolute actions
                 # delta_actions shape: [batch_size, seq_len, action_dim]
-                # 后续项累加delta actions
+                # Subsequent items accumulate delta actions
                 actions = torch.cumsum(actions, dim=-2) + absolute_state[..., :original_action_dim].unsqueeze(-2)
  
             if self.config.adapt_to_pi_aloha:
@@ -568,14 +568,11 @@ class PI0FlowMatching(nn.Module):
         self.action_time_mlp_in = nn.Linear(self.config.proj_width * 2, self.config.proj_width)
         self.action_time_mlp_out = nn.Linear(self.config.proj_width, self.config.proj_width)
         
-        # --- 新增：轨迹投影层 ---
         self.trajectory_state_proj = nn.Linear(self.config.max_traj_state_dim, self.config.proj_width)
         self.trajectory_in_proj = nn.Linear(self.config.max_trajectory_dim, self.config.proj_width)
         self.trajectory_out_proj = nn.Linear(self.config.proj_width, self.config.max_trajectory_dim)
-        # --- 新增：轨迹时间MLP ---
         self.trajectory_time_mlp_in = nn.Linear(self.config.proj_width * 2, self.config.proj_width)
         self.trajectory_time_mlp_out = nn.Linear(self.config.proj_width, self.config.proj_width)
-        # -------------------------
         
         self.randmask_traj2action_prob = self.config.randmask_traj2action_prob
         self.randmask_traj2egoimage_prob = self.config.randmask_traj2egoimage_prob
@@ -588,7 +585,7 @@ class PI0FlowMatching(nn.Module):
             params.requires_grad = self.config.train_state_proj
         for params in self.trajectory_state_proj.parameters():
             params.requires_grad = self.config.train_trajectory_state_proj
-        # --- 新增：设置轨迹投影层的 requires_grad (如果需要) ---
+        self.randmask_traj2action_prob = self.config.randmask_traj2action_prob
         # for params in self.trajectory_in_proj.parameters():
         #     params.requires_grad = self.config.train_trajectory_proj
         # for params in self.trajectory_out_proj.parameters():

@@ -7,7 +7,6 @@ import numpy as np
 import cv2
 import sys
 import logging
-# Add the parent directory to sys.path to import from systems
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 
@@ -17,6 +16,8 @@ from systems.robot_evaluation_system import RobotEvaluationSystem
 DATA_SAVE_PATH = "./data/evaluation/20250912_fps5-10"
 ACTION_ONLY_MODE = False  # Whether to use only action space for control
 CALIBRATION =True
+PORT = 8765
+HOST = "10.21.40.5"
 #####################################################
 
 # Import necessary functions and classes from your original script
@@ -24,12 +25,9 @@ TASKS = [
     # "stack the paper cups",
     # "stack the rings on the pillar"
     # "clean up the table",
-
     # "pick up the water bottle",
-
     "pick up the tomato and put it in the yellow tray",
     "pick up the tomato and put it in the blue tray",
-
     # "pick up the tomato and put it in the basket",
     # "pick up the pepper and put it in the yellow tray",
     # "pick up the pepper and put it in the blue tray",
@@ -58,7 +56,7 @@ def initialize_robot_system():
     global robot_system, has_calibration
     try:
         if robot_system is None:
-            robot_system = RobotEvaluationSystem(save_dir=DATA_SAVE_PATH,action_only_mode=ACTION_ONLY_MODE, calibration=CALIBRATION)
+            robot_system = RobotEvaluationSystem(save_dir=DATA_SAVE_PATH,action_only_mode=ACTION_ONLY_MODE, calibration=CALIBRATION, port=PORT, host=HOST)
         else:
             robot_system.reset_for_collection()
         has_calibration = True

@@ -122,14 +122,14 @@ def init_logging(log_file=None):
     formatter = logging.Formatter()
     formatter.format = custom_format
     
-    # 添加控制台处理程序
+    # Add console handler
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(formatter)
     logging.getLogger().addHandler(console_handler)
     
-    # 如果提供了日志文件路径，添加文件处理程序
+    # If log file path is provided, add file handler
     if log_file is not None:
-        # 确保日志文件目录存在
+        # Ensure the log file directory exists
         log_dir = os.path.dirname(log_file)
         if log_dir and not os.path.exists(log_dir):
             os.makedirs(log_dir, exist_ok=True)

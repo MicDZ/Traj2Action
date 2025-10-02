@@ -123,9 +123,9 @@ def make_policy(
     if cfg.load_pretrained_from_pi0:
         import os
         from safetensors.torch import load_file
-        # 1. 先初始化模型
+        # 1. Initialize the model first
         policy = policy_cls(**kwargs)
-        # 2. 加载原始权重
+        # 2. Load original weights
         # file_paths = [
         #     os.path.join(cfg.pretrained_path, "model-00001-of-00003.safetensors"),
         #     os.path.join(cfg.pretrained_path, "model-00002-of-00003.safetensors"),
@@ -139,7 +139,7 @@ def make_policy(
             os.path.join(cfg.pretrained_path, "model.safetensors"),
             device="cpu"
         )     
-        # 只保留非normalize/unnormalize相关的参数
+        # Only keep parameters not related to normalize/unnormalize
         norm_keywords = [
             "normalize_inputs", "normalize_targets", "unnormalize_outputs"
         ]
@@ -149,10 +149,10 @@ def make_policy(
         missing_keys = incompatiblekeys.missing_keys
         # import ipdb;ipdb.set_trace()
         print([key for key in missing_keys if 'traj' not in key])
-        # 只加载 gemma_expert 相关参数
+        # Only load gemma_expert related parameters
         gemma_traj_expert_state_dict = {k.replace("model.paligemma_with_expert.gemma_expert.", ""): v for k, v in state_dict.items() if k.startswith("model.paligemma_with_expert.gemma_expert")}
         policy.model.paligemma_with_expert.gemma_traj_expert.load_state_dict(gemma_traj_expert_state_dict, strict=True)
-        # # 3. 将 gemma_expert 权重拷贝到 gemma_traj_expert
+        # # 3. Copy gemma_expert weights to gemma_traj_expert
         # policy.gemma_traj_expert.load_state_dict(policy.gemma_traj_expert_state_dict.state_dict(), strict=True)
         policy = policy.to(cfg.device)
     else:

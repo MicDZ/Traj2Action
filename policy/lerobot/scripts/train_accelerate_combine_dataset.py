@@ -104,29 +104,29 @@ def update_policy(
 
 def print_batch_structure(obj, prefix="batch"):
     """
-    递归地打印出 batch 对象中每个元素的类型、形状、设备等信息。
+    Recursively print the type, shape, device, etc. of each element in the batch object.
     """
     if isinstance(obj, torch.Tensor):
         print(f"{prefix:<50} | {'Type:':<10} {type(obj).__name__:<20} | {'Shape:':<10} {str(obj.shape):<25} | {'Device:':<10} {obj.device}")
     elif isinstance(obj, dict):
-        # 打印字典本身的信息（通常是它的键的数量）
+        # Print information about the dictionary itself (usually the number of its keys)
         print(f"{prefix:<50} | {'Type:':<10} {type(obj).__name__:<20} | {'Info:':<10} {f'Keys: {len(obj)}'}")
         for k, v in obj.items():
-            # 检查 key 是否为字符串，如果不是，则特别标记
+            # Check if key is a string, if not, mark it specially
             if not isinstance(k, str):
                 print(f"!!! WARNING: Non-string key found: {k} (Type: {type(k).__name__})")
             
             new_prefix = f"{prefix}['{k}']"
             print_batch_structure(v, new_prefix)
     elif isinstance(obj, (list, tuple)):
-        # 打印列表/元组本身的信息（长度）
+        # Print information about the list/tuple itself (length)
         print(f"{prefix:<50} | {'Type:':<10} {type(obj).__name__:<20} | {'Info:':<10} {f'Len: {len(obj)}'}")
         for i, v in enumerate(obj):
             new_prefix = f"{prefix}[{i}]"
             print_batch_structure(v, new_prefix)
     else:
-        # 打印其他所有类型的数据
-        print(f"{prefix:<50} | {'Type:':<10} {type(obj).__name__:<20} | {'Info:':<10} Value: {str(obj)[:50]}") # 打印部分值以供参考
+        # Print data of all other types
+        print(f"{prefix:<50} | {'Type:':<10} {type(obj).__name__:<20} | {'Info:':<10} Value: {str(obj)[:50]}") # Print partial value for reference
 
 def normalize(feature, stat, accelerator):
     mean = torch.tensor(stat['mean'], device=accelerator.device)
@@ -138,7 +138,7 @@ def train(cfg: TrainPipelineConfig):
     cfg.validate()
     base_output_dir = Path(cfg.base_output_dir)
     current_time = datetime.now()
-    project_name = cfg.wandb.project if cfg.wandb.project else "humanpi"
+    project_name = cfg.wandb.project if cfg.wandb.project else "traj2action"
     job_name = cfg.job_name
     cfg.output_dir = base_output_dir / f"{project_name}" / f"{job_name}" / f"{current_time.strftime('%Y-%m-%d')}" / f"{cfg.policy.type}_{current_time.strftime('%H-%M-%S')}"
 
@@ -416,7 +416,7 @@ def train(cfg: TrainPipelineConfig):
                     raise ValueError(f"Unsupported type: {type(value[0])}")
             
 
-            # if accelerator.is_main_process and current_step == 0: # 只在第一个step打印一次
+            # if accelerator.is_main_process and current_step == 0: # Only print once in the first step
             #     # print("\n" + "="*80)
             #     # print("                INSPECTING BATCH STRUCTURE (step 0)               ")
             #     # print("="*80)
@@ -462,34 +462,34 @@ def train(cfg: TrainPipelineConfig):
         # Convert the defaultdict to a standard dict to ensure DDP compatibility
         batch = dict(batch)
 
-        # =======================> 在这里添加检查代码 <=======================
-        # 只在训练的前几个步骤进行检查，以避免不必要的开销
+        # =======================> Add check code here <=======================
+        # Only check in the first few training steps to avoid unnecessary overhead
         if current_step < 2:
-            # 1. 从你的 batch 中选择一个有代表性的张量。
-            #    最好是像 'index' 或 'frame_index' 这样的索引张量。
-            #    如果你的 batch 中没有索引，任何数据张量（如 'actions'）都可以。
-            # !!! 请将 'index' 替换为你 batch 中实际存在的键 !!!
+            # 1. Select a representative tensor from your batch.
+            #    Preferably an index tensor like 'index' or 'frame_index'.
+            #    If there is no index in your batch, any data tensor (like 'actions') will do.
+            # !!! Please replace 'index' with a key that actually exists in your batch !!!
             key_to_check = 'actions'
             if key_to_check not in batch:
-                # 如果指定的键不存在，自动选择第一个张量进行检查
+                # If the specified key does not exist, automatically select the first tensor for checking
                 key_to_check = next(k for k, v in batch.items() if isinstance(v, torch.Tensor))
 
             representative_tensor = batch[key_to_check]
 
-            # 2. accelerator.gather() 必须由所有进程调用。
-            #    它会收集所有 GPU 上的 representative_tensor 并将它们拼接起来。
+            # 2. accelerator.gather() must be called by all processes.
+            #    It collects the representative_tensor from all GPUs and concatenates them.
             gathered_tensors = accelerator.gather(representative_tensor)
 
-            # 3. 只在主进程 (rank 0) 上进行分析和打印，保持日志干净。
+            # 3. Only perform analysis and printing on the main process (rank 0) to keep logs clean.
             if accelerator.is_main_process:
                 print("\n" + "="*80)
                 print(f"                Checking Batches on Step {current_step}                ")
                 print(f"Checking uniqueness of tensor batch['{key_to_check}'] across {accelerator.num_processes} GPUs...")
 
-                # 4. 将收集到的张量切分成每个 GPU 的数据块
+                # 4. Split the gathered tensor into data chunks for each GPU
                 chunks = torch.chunk(gathered_tensors, accelerator.num_processes, dim=0)
                 
-                # 5. 比较每对数据块是否相同
+                # 5. Compare each pair of data chunks to see if they are the same
                 is_duplicated = False
                 for i in range(len(chunks)):
                     for j in range(i + 1, len(chunks)):
@@ -503,7 +503,7 @@ def train(cfg: TrainPipelineConfig):
                     print("❌ FAILED: Found duplicate batches. Your data distribution is not working correctly.")
                 print("="*80 + "\n")
 
-            # 等待所有进程完成这个检查步骤，再继续训练
+            # Wait for all processes to complete this check step before continuing training
             accelerator.wait_for_everyone()
 
         # ====================================================================

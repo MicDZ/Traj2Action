@@ -48,7 +48,7 @@ This policy has been pushed to the Hub using [LeRobot](https://github.com/huggin
 """
 
 def filter_norm_keys(state_dict):
-    # 只保留非normalize/unnormalize相关的参数
+    # Only keep parameters not related to normalize/unnormalize
     norm_keywords = [
         "normalize_inputs", "normalize_targets", "unnormalize_outputs"
     ]

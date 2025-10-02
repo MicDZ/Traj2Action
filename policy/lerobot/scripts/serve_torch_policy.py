@@ -26,8 +26,6 @@ from lerobot.common.utils.random_utils import set_seed
 from lerobot.configs.eval import EvalPipelineConfig
 from lerobot.configs import parser
 from lerobot.scripts.websocket.websocket_policy_server import WebsocketPolicyServer
-# 导入msgpack_numpy用于数据序列化
-
 import functools
 
 import msgpack
@@ -73,7 +71,7 @@ unpackb = functools.partial(msgpack.unpackb, object_hook=unpack_array)
 
         
 def _json_serializer(self, obj):
-    """JSON序列化辅助函数"""
+    """JSON serialization helper function"""
     if isinstance(obj, np.ndarray):
         return obj.tolist()
     elif isinstance(obj, torch.Tensor):
@@ -93,10 +91,9 @@ def to_tensor(d):
     
 @parser.wrap()
 def main(cfg: EvalPipelineConfig) -> None:
-    """主函数"""
+    """Main function"""
     logging.info(pformat(asdict(cfg)))
     
-    # 检查设备可用性
     device = get_safe_torch_device(cfg.policy.device, log=True)
 
     torch.backends.cudnn.benchmark = True
@@ -107,31 +104,22 @@ def main(cfg: EvalPipelineConfig) -> None:
     
     logging.info("Making policy.")
 
-    # 在同步环境中创建模型
-    # stats = json.load(open("/mnt/sda/zhouhan/dataset/ours_franka_ok/meta/stats.json", "r"))
-    # stats = to_tensor(stats)
-    # dataset = make_dataset(cfg)
 
-    # load ds_meta from file
     import json
-    # load ds_meta from file
     ds_meta_file = os.path.join(cfg.policy.pretrained_path, "dataset_stats.json") if cfg.policy and cfg.policy.pretrained_path else None
     if ds_meta_file and os.path.exists(ds_meta_file):
         with open(ds_meta_file, "r") as f:
             ds_meta_stats = json.load(f)
-        # convert to tensor
         ds_meta_stats = {k: {kk: np.array(vv) for kk, vv in v.items()} for k, v in ds_meta_stats.items()}
     ds_meta_offline['stats'] = ds_meta_stats
     print(f'Inference policy config:{cfg.policy}')
     policy = make_policy(
         cfg=cfg.policy,
-        # ds_meta=dataset.meta,
         ds_meta_offline=ds_meta_offline
     )
     
     logging.info("Policy created successfully.")
     
-    # 创建服务器
     server = WebsocketPolicyServer(
         policy=policy,
         host=cfg.host or "127.0.0.1",
@@ -142,7 +130,6 @@ def main(cfg: EvalPipelineConfig) -> None:
     
     logging.info(f"Starting server on {server._host}:{server._port}")
     
-    # 启动服务
     server.serve_forever()
 
 if __name__ == "__main__":
