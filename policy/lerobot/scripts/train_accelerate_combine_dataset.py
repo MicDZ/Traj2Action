@@ -32,7 +32,6 @@ sys.path.insert(0, os.getcwd())
 from lerobot.common.datasets.factory import make_dataset
 from lerobot.common.datasets.sampler import EpisodeAwareSampler
 from lerobot.common.datasets.combined_dataset import LerobotCombinedDataset, CollectiveDataloader
-from lerobot.common.envs.factory import make_env
 from lerobot.common.optim.factory import make_optimizer_and_scheduler
 from lerobot.common.policies.factory import make_policy
 from lerobot.common.policies.pretrained import PreTrainedPolicy
@@ -52,7 +51,6 @@ from lerobot.common.utils.utils import (
 )
 from lerobot.configs import parser
 from lerobot.configs.train import TrainPipelineConfig
-from lerobot.scripts.eval import eval_policy
 
 
 from datetime import datetime

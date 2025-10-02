@@ -1,68 +1,93 @@
 #!/usr/bin/env python
 
-import dataclasses
-import enum
+
 import json
 import logging
-import socket
-from pathlib import Path
-from typing import Optional, Dict, Any
-import argparse
+
 from dataclasses import asdict
 from pprint import pformat
-import asyncio
-import traceback
-
-import torch
-import tyro
-import numpy as np
-from torch import nn
-import websockets
-import websockets.asyncio.server
-import websockets.frames
-import einops
-from termcolor import colored
-
 import os 
 import sys 
 sys.path.insert(0, os.getcwd())
+import torch
+from lerobot.common.datasets.factory import make_dataset
+import numpy as np
+from termcolor import colored
+from lerobot.configs.types import DictLike, FeatureType, PolicyFeature
+
+
+ds_meta_offline = {
+    "features": {'image': PolicyFeature(FeatureType.VISUAL, shape=(3, 720, 1280)), 'wrist_image': PolicyFeature(FeatureType.VISUAL, shape=(3, 720, 1280)), 
+                 'state': PolicyFeature(FeatureType.STATE, shape=(8,)),  'actions': PolicyFeature(type=FeatureType.ACTION, shape=(7,))},
+    "stats": None
+}
+
 from lerobot.common.utils.utils import (
     get_safe_torch_device,
     init_logging,
     inside_slurm,
 )
 from lerobot.common.policies.factory import make_policy
-from lerobot.common.policies.pretrained import PreTrainedPolicy
 from lerobot.common.utils.random_utils import set_seed
 from lerobot.configs.eval import EvalPipelineConfig
 from lerobot.configs import parser
 from lerobot.scripts.websocket.websocket_policy_server import WebsocketPolicyServer
-from lerobot.common.ds_meta import ds_meta_offline
 # 导入msgpack_numpy用于数据序列化
-try:
-    from openpi_client import msgpack_numpy
-except ImportError:
-    # 如果没有openpi_client，使用简单的json序列化
-    import json
-    class msgpack_numpy:
-        @staticmethod
-        def Packer():
-            return json
-        @staticmethod
-        def unpackb(data):
-            return json.loads(data)
 
-            
-    def _json_serializer(self, obj):
-        """JSON序列化辅助函数"""
-        if isinstance(obj, np.ndarray):
-            return obj.tolist()
-        elif isinstance(obj, torch.Tensor):
-            return obj.cpu().numpy().tolist()
-        elif isinstance(obj, (np.integer, np.floating)):
-            return obj.item()
-        else:
-            return str(obj)
+import functools
+
+import msgpack
+import numpy as np
+
+def pack_array(obj):
+    if (isinstance(obj, (np.ndarray, np.generic))) and obj.dtype.kind in ("V", "O", "c"):
+        raise ValueError(f"Unsupported dtype: {obj.dtype}")
+
+    if isinstance(obj, np.ndarray):
+        return {
+            b"__ndarray__": True,
+            b"data": obj.tobytes(),
+            b"dtype": obj.dtype.str,
+            b"shape": obj.shape,
+        }
+
+    if isinstance(obj, np.generic):
+        return {
+            b"__npgeneric__": True,
+            b"data": obj.item(),
+            b"dtype": obj.dtype.str,
+        }
+
+    return obj
+
+
+def unpack_array(obj):
+    if b"__ndarray__" in obj:
+        return np.ndarray(buffer=obj[b"data"], dtype=np.dtype(obj[b"dtype"]), shape=obj[b"shape"])
+
+    if b"__npgeneric__" in obj:
+        return np.dtype(obj[b"dtype"]).type(obj[b"data"])
+
+    return obj
+
+Packer = functools.partial(msgpack.Packer, default=pack_array)
+packb = functools.partial(msgpack.packb, default=pack_array)
+
+Unpacker = functools.partial(msgpack.Unpacker, object_hook=unpack_array)
+unpackb = functools.partial(msgpack.unpackb, object_hook=unpack_array)
+
+
+        
+def _json_serializer(self, obj):
+    """JSON序列化辅助函数"""
+    if isinstance(obj, np.ndarray):
+        return obj.tolist()
+    elif isinstance(obj, torch.Tensor):
+        return obj.cpu().numpy().tolist()
+    elif isinstance(obj, (np.integer, np.floating)):
+        return obj.item()
+    else:
+        return str(obj)
 
 def to_tensor(d):
     if isinstance(d, dict):
@@ -89,13 +114,28 @@ def main(cfg: EvalPipelineConfig) -> None:
     logging.info("Making policy.")
 
     # 在同步环境中创建模型
-    # stats = json.load(open(cfg.stats_path))
+    # stats = json.load(open("/mnt/sda/zhouhan/dataset/ours_franka_ok/meta/stats.json", "r"))
     # stats = to_tensor(stats)
+    # dataset = make_dataset(cfg)
+    import json
+    # load ds_meta from file
+    ds_meta_file = os.path.join(cfg.policy.pretrained_path, "dataset_stats.json") if cfg.policy and cfg.policy.pretrained_path else None
+    if ds_meta_file and os.path.exists(ds_meta_file):
+        with open(ds_meta_file, "r") as f:
+            ds_meta_stats = json.load(f)
+        # convert to tensor
+        ds_meta_stats = {k: {kk: np.array(vv) for kk, vv in v.items()} for k, v in ds_meta_stats.items()}
+    ds_meta_offline['stats'] = ds_meta_stats
     policy = make_policy(
         cfg=cfg.policy,
-        env_cfg=cfg.env, 
-        ds_meta_offline=ds_meta_offline,
-        # stats=stats
+        # ds_meta=dataset.meta,
+        ds_meta_offline=ds_meta_offline
+    )
+    
+    policy = make_policy(
+        cfg=cfg.policy,
+        # ds_meta=dataset.meta,
+        ds_meta_offline=ds_meta_offline
     )
     
     logging.info("Policy created successfully.")
