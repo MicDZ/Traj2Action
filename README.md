@@ -13,7 +13,7 @@ This repo contains training & evaluation code for the paper "From Human Hands to
 * 🔥 [2025-09]: We release our code, come and check it out!
 
 ## Introduction
-We present Traj2Action, a novel framework that transfers human manipulation skills to robot arms by aligning human hand trajectories with robot end-effector trajectories. Our approach leverages a trajectory alignment model to map human hand movements to robot actions, enabling robots to perform complex manipulation tasks demonstrated by humans. We validate our method on a variety of tasks, showing significant improvements in task success rates and generalization to unseen scenarios.
+We present **Traj2Action**, a novel framework that transfers human manipulation skills to robot arms by aligning human hand trajectories with robot end-effector trajectories. Our approach leverages a trajectory alignment model to map human hand movements to robot actions, enabling robots to perform complex manipulation tasks demonstrated by humans. We validate our method on a variety of tasks, showing significant improvements in task success rates and generalization to unseen scenarios.
 
 
 ## How to use
