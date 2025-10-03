@@ -25,7 +25,6 @@ conda activate traj2action
 accelerate config
 ```
 
-
 ### Training with dual datasets (hand + robot)
 
 Open `Traj2Action/policy/scripts/train_pi0_accelerate_dual_combine_dataset.sh` and replace absolute paths with your own.

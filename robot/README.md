@@ -1,5 +1,7 @@
 # Traj2Action: Robot Control Library
 
+This directory contains a robot control library for the Franka Emika Panda robot, including components for robot control, camera management, robot/hand data collection, and task execution.
+
 ## System Architecture
 
 The project follows a modular design with several key components:
@@ -51,7 +53,21 @@ The project follows a modular design with several key components:
 
 ## Usage
 
-### Before You Start
+
+### Installation
+Since the hardware setup can vary, you can choose the components that fit your setup. 
+
+Our hardware setup includes:
+- Franka Emika Panda robot
+- Gello Controller
+- Spacemouse Controller
+- USB Cameras
+- RealSense Cameras
+  
+You can easily adapt this codebase to your own setup by modifying the drive code.
+
+#### Franky Setup
+This codebase uses the [Franky Control](https://github.com/Franky-Emika/Franky) library for high-level robot control. Please follow the installation instructions in the Franky repository to set it up.
 
 #### Camera Calibration
 

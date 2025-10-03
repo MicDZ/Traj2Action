@@ -6,16 +6,24 @@ This directory contains scripts and instructions for converting and preparing da
 
 1. Download our collected datasets or prepare your own dataset.
 We have uploaded our collected datasets to Hugging Face for easy access:
-* [Robot Dataset](https://huggingface.co/datasets/Traj2Action/Traj2Action_Pick_up_Tomato_Robot)
-* [Hand Dataset](https://huggingface.co/datasets/Traj2Action/Traj2Action_Pick_up_Tomato_Hand)
 
-These two dataset required a minimum of 60GB free disk space. Considering unzip operation, please ensure you have at least 150GB free disk space.
+| Dataset Name | Description | Link |
+|--------------|-------------|------|
+| Robot Full | Our collected robot dataset for the "PTT" task, containing 408 trials with multi-view images and robot states. | [Hugging Face Link](https://huggingface.co/datasets/Traj2Action/FruitsAndTray/resolve/main/fruits_robot.zip) |
+| Hand Full | Our collected human hand dataset for the "PTT" task, containing 635 trials with multi-view images and hand trajectories. | [Hugging Face Link](https://huggingface.co/datasets/Traj2Action/FruitsAndTray/resolve/main/fruits_hand.zip) |
+| Robot Small | A smaller subset of our robot dataset with 10 trials, useful for quick testing and debugging. | [Hugging Face Link](https://huggingface.co/datasets/Traj2Action/FruitsAndTray/resolve/main/fruits_robot_min.zip) | 
+| Hand Small | A smaller subset of our hand dataset with 10 trials, useful for quick testing and debugging. | [Hugging Face Link](https://huggingface.co/datasets/Traj2Action/FruitsAndTray/resolve/main/fruits_hand_min.zip) |
 
+If you want to use the full dataset, please make sure you have at least 300GB free disk space, due to the unzipping and conversion process.
+
+An example command to download and unzip the small datasets is as follows:
 ```sh
 mkdir data
-huggingface-cli download --resume-download Traj2Action/Traj2Action_Pick_up_Tomato_Robot --local-dir ./data/
-huggingface-cli download --resume-download Traj2Action/Traj2Action_Pick_up_Tomato_Hand --local-dir ./data/
-unzip ./data/*.zip -d ./data/
+cd data
+wget https://huggingface.co/datasets/Traj2Action/FruitsAndTray/resolve/main/fruits_robot_min.zip
+wget https://huggingface.co/datasets/Traj2Action/FruitsAndTray/resolve/main/fruits_hand_min.zip
+unzip fruits_robot_min.zip
+unzip fruits_hand_min.zip
 ```
 
 These datasets we uploaded to Hugging Face are structured in our custom format, which stores synchronized multi-view images, robot states, actions, and trajectories in a highly efficient manner. You can use the provided conversion scripts to adapt your own datasets to this format.
@@ -32,9 +40,6 @@ Similarly, to convert our hand dataset, you can run:
 ```sh
 python -m dataset.scripts.convert_ours_hand_2_lerobot
 ```
-
-
-
 
 ## Dataset Structure
 
