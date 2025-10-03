@@ -26,6 +26,7 @@ The codebase includes three main modules:
 3. **Robot Control Library**: A library for controlling a Franka Emika Panda robot, including components for robot control, camera management, robot/hand data collection, and task execution. See `robot/README.md` for details.
 
 For a typical workflow, start with dataset conversion and preparation, then proceed to policy training and serving, and finally use the robot control library for real-world robot manipulation tasks. You should follow the instructions in each module's README for setup and usage.
+<img src="static/images/software_structure.png" alt="teaser" width="100%" style="max-width: 600px; display: block; margin: 0 auto;"/>
 
 ## Main Results
 Please visit our [website](https://anonymous.4open.science/w/Traj2Action-4A45/#results) for the main results and evaluation videos.
