@@ -3,7 +3,6 @@
 <div align="center">
     <a href="https://anonymous.4open.science/w/Traj2Action-4A45/"><img src="https://img.shields.io/static/v1?label=Website&message=Traj2Action&color=darkred&logo=github-pages"></a> &ensp;
   <a href="https://anonymous.4open.science/w/Traj2Action-4A45/#evaluation_videos"><img src="https://img.shields.io/static/v1?label=Demo&message=Videos&color=yellow"></a> &ensp;
-  <a href="https://huggingface.co/datasets/Traj2Action/FruitsAndTray"><img src="https://img.shields.io/static/v1?label=Dataset&message=Hugging Face&color=yellow"></a> &ensp;
 </div>
 
 <img src="static/images/main.png" alt="teaser" width="100%" style="max-width: 900px; display: block; margin: 0 auto;"/>
