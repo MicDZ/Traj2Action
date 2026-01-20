@@ -1,8 +1,8 @@
 ## From Human Hands to Robot Arms: Manipulation Skills Transfer via Trajectory Alignment
 
 <div align="center">
-    <a href="https://anonymous.4open.science/w/Traj2Action-4A45/"><img src="https://img.shields.io/static/v1?label=Website&message=Traj2Action&color=darkred&logo=github-pages"></a> &ensp;
-  <a href="https://anonymous.4open.science/w/Traj2Action-4A45/#evaluation_videos"><img src="https://img.shields.io/static/v1?label=Demo&message=Videos&color=yellow"></a> &ensp;
+    <a href="https://anonymous.4open.science/w/Traj2Action-D1ED/"><img src="https://img.shields.io/static/v1?label=Website&message=Traj2Action&color=darkred&logo=github-pages"></a> &ensp;
+  <a href="https://anonymous.4open.science/w/Traj2Action-D1ED/#evaluation_videos"><img src="https://img.shields.io/static/v1?label=Demo&message=Videos&color=yellow"></a> &ensp;
 </div>
 
 <img src="static/images/main.png" alt="teaser" width="100%" style="max-width: 900px; display: block; margin: 0 auto;"/>
@@ -28,7 +28,7 @@ For a typical workflow, start with dataset conversion and preparation, then proc
 <img src="static/images/software_structure.png" alt="teaser" width="100%" style="max-width: 600px; display: block; margin: 0 auto;"/>
 
 ## Main Results
-Please visit our [website](https://anonymous.4open.science/w/Traj2Action-4A45/#results) for the main results and evaluation videos.
+Please visit our [website](https://anonymous.4open.science/w/Traj2Action-D1ED/#results) for the main results and evaluation videos.
 
 ## Contact
 During the review process, we will keep anonymous.
