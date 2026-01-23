@@ -1,4 +1,4 @@
-## From Human Hands to Robot Arms: Manipulation Skills Transfer via Trajectory Alignment
+## Traj2Action: A Co-Denoising Framework for Trajectory-Guided Human-to-Robot Skill Transfer
 
 <div align="center">
     <a href="https://anonymous.4open.science/w/Traj2Action-D1ED/"><img src="https://img.shields.io/static/v1?label=Website&message=Traj2Action&color=darkred&logo=github-pages"></a> &ensp;
@@ -7,7 +7,7 @@
 
 <img src="static/images/main.png" alt="teaser" width="100%" style="max-width: 900px; display: block; margin: 0 auto;"/>
 
-This repo contains training & evaluation code for the paper "From Human Hands to Robot Arms: Manipulation Skills Transfer via Trajectory Alignment". 
+This repo contains training & evaluation code for the paper "Traj2Action: A Co-Denoising Framework for Trajectory-Guided Human-to-Robot Skill Transfer". 
 
 ## 🔔 News
 * 🔥 [2025-10-02]: We release our dataset.
@@ -36,7 +36,7 @@ During the review process, we will keep anonymous.
 ## Citation
 ```tex
 @inproceedings{,
-  title={From Human Hands to Robot Arms: Manipulation Skills Transfer via Trajectory Alignment},
+  title={Traj2Action: A Co-Denoising Framework for Trajectory-Guided Human-to-Robot Skill Transfer},
   author={},
   booktitle={},
   pages={},
