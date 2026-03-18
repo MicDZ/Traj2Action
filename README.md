@@ -13,7 +13,7 @@
   <p align="center"><strong>In Submission</strong></p>
 </p>
 
-<div id="top" align="center">
+
 
 
 <img src="static/images/main.png" alt="teaser" width="100%" style="max-width: 900px; display: block; margin: 0 auto;"/>
