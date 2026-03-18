@@ -43,7 +43,9 @@ Please visit our [website](https://micdz.github.io/Traj2Action) for the main res
 
 ## Contact
 Han Zhou: [hanzhou04@outlook.com](mailto:hanzhou04@outlook.com)
+
 Jinjin Cao: [caojinjin@westlake.edu.cn](mailto:caojinjin@westlake.edu.cn)
+
 Liyuan Ma: [maliyuan@westlake.edu.cn](mailto:maliyuan@westlake.edu.cn)
 
 ## Citation
